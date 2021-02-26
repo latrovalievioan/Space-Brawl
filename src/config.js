@@ -20,8 +20,27 @@ export default {
     Splash: {
       hideDelay: 0,
     },
+    Loading: {
+      hideDelay: 1000,
+      backgroundBlur: 20,
+      logoScale: 3.5,
+      loadingBar: {
+        x: 0,
+        y: 0,
+        width: 435,
+        height: 45,
+        radius: 50,
+      },
+      loadMeter: {
+        x: -210,
+        y: 0,
+        width: 420,
+        height: 32,
+        radius: 50,
+      },
+    },
   },
   assets: {
-    root: '/',
+    root: "/",
   },
 };

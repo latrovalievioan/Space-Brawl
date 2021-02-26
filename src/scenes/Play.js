@@ -1,16 +1,12 @@
-import { Sprite } from 'pixi.js';
-import Scene from './Scene';
-import gsap from 'gsap';
-import Footer from '../components/Footer';
+import { Sprite } from "pixi.js";
+import Scene from "./Scene";
+import gsap from "gsap";
 
 export default class Play extends Scene {
-  async onCreated() {
-
-    const footer = new Footer();
-    footer.x = - window.innerWidth / 2;
-    footer.y = window.innerHeight / 2 - footer.height;
-    this.addChild(footer);
+  constructor() {
+    super();
   }
+  async onCreated() {}
 
   /**
    * Hook called by the application when the browser window is resized.
@@ -19,7 +15,7 @@ export default class Play extends Scene {
    * @param  {Number} width  Window width
    * @param  {Number} height Window height
    */
-  onResize(width, height) { // eslint-disable-line no-unused-vars
-
+  onResize(width, height) {
+    // eslint-disable-line no-unused-vars
   }
 }
