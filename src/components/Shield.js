@@ -2,14 +2,18 @@ import { Container, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
 
 export default class Shield extends Container {
-  constructor({ activePart, inactivePart, upperPart, lowerPart }) {
+  constructor({ activePart, inactivePart, upperPart, lowerPart }, player) {
     super();
+    this._player = player;
     this._activePartConfig = activePart;
     this._inactivePartConfig = inactivePart;
     this._upperPartConfig = upperPart;
     this._lowerPartConfig = lowerPart;
     this._createActivePart(this._activePartConfig, this._upperPartConfig);
     this._createInactivePart(this._inactivePartConfig, this._lowerPartConfig);
+    document.addEventListener("keydown", (e) => {
+      this._eventHandler(e);
+    });
   }
   _createActivePart({ image }, { scale = 0, x = 0, y = 0, angle = 0 }) {
     this._activePart = new Sprite.from(image);
@@ -28,5 +32,33 @@ export default class Shield extends Container {
     this._inactivePart.y = y;
     this._inactivePart.angle = angle;
     this.addChild(this._inactivePart);
+  }
+
+  _eventHandler(e) {
+    if (
+      ((e.key === "ArrowDown" &&
+        this._activePart.x === this._upperPartConfig.x) ||
+        (e.key === "ArrowUp" &&
+          this._activePart.x === this._lowerPartConfig.x)) &&
+      this._player
+    )
+      this._swapShield();
+  }
+  _swapShield() {
+    [
+      this._activePart.x,
+      this._activePart.y,
+      this._activePart.angle,
+      this._inactivePart.x,
+      this._inactivePart.y,
+      this._inactivePart.angle,
+    ] = [
+      this._inactivePart.x,
+      this._inactivePart.y,
+      this._inactivePart.angle - 90,
+      this._activePart.x,
+      this._activePart.y,
+      this._activePart.angle + 90,
+    ];
   }
 }

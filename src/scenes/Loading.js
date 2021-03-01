@@ -89,7 +89,9 @@ export default class Loading extends Scene {
       defaultKey: Assets.images["key-default"],
       longKey: Assets.images["key-long"],
     };
-    const sounds = {};
+    const sounds = {
+      battleMusic: Assets.sounds.fight,
+    };
 
     return super.preload({ images, sounds });
   }

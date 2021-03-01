@@ -1,16 +1,16 @@
 import { Sprite } from "pixi.js";
 import Scene from "./Scene";
-import gsap from "gsap";
-import { fit } from "../core/utils";
 import config from "../config";
 import Planet from "../components/Planet";
 import { scaleXY } from "../core/utils";
+import Assets from "../core/AssetManager";
 
 export default class Play extends Scene {
   constructor() {
     super();
   }
   async onCreated() {
+    Assets.sounds.battleMusic.play();
     this._createBackground();
     this._createPlanets();
   }
@@ -27,7 +27,7 @@ export default class Play extends Scene {
   _createPlanets() {
     const blueBigPlanet = new Planet(config.planets.blueBig);
     this.addChild(blueBigPlanet);
-    const redBigPlanet = new Planet(config.planets.redBig);
+    const redBigPlanet = new Planet(config.planets.redBig, true);
     this.addChild(redBigPlanet);
     const smallBluePlanet = new Planet(config.planets.smallBlue);
     this.addChild(smallBluePlanet);
