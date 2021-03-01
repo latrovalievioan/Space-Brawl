@@ -79,6 +79,26 @@ export default {
           angle: 180,
         },
       },
+      shield: {
+        activePart: {
+          image: "shieldActive",
+        },
+        inactivePart: {
+          image: "shieldInactive",
+        },
+        upperPart: {
+          x: 83,
+          y: 404,
+          scale: 0.83,
+          angle: 135,
+        },
+        lowerPart: {
+          x: 183,
+          y: 306,
+          scale: 0.83,
+          angle: 135,
+        },
+      },
     },
     redBig: {
       image: "planet1",
@@ -105,6 +125,26 @@ export default {
           x: -72,
           y: -474,
           angle: 0,
+        },
+      },
+      shield: {
+        activePart: {
+          image: "shieldActive",
+        },
+        inactivePart: {
+          image: "shieldInactive",
+        },
+        upperPart: {
+          x: -83,
+          y: -520,
+          scale: 0.83,
+          angle: 315,
+        },
+        lowerPart: {
+          x: -183,
+          y: -420,
+          scale: 0.83,
+          angle: 315,
         },
       },
     },
