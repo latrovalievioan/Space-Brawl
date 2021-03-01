@@ -54,14 +54,14 @@ export default {
     blueBig: {
       image: "planet2",
       scale: 0.8,
-      x: -580,
-      y: -300,
+      x: -584,
+      y: -297,
       rover: {
         body: {
           image: "rover",
           scale: 1,
-          x: 40,
-          y: 280,
+          x: 43,
+          y: 283,
           angle: 180,
         },
         shadow: {
@@ -74,8 +74,8 @@ export default {
         healthBar: {
           image: "health",
           scale: 1,
-          x: 44,
-          y: 362,
+          x: 52,
+          y: 358,
           angle: 180,
         },
       },
@@ -83,14 +83,14 @@ export default {
     redBig: {
       image: "planet1",
       scale: 0.8,
-      x: 410,
-      y: 425,
+      x: 407,
+      y: 427,
       rover: {
         body: {
           image: "rover",
           scale: 1,
-          x: -60,
-          y: -400,
+          x: -62,
+          y: -398,
         },
         shadow: {
           image: "shadow",
@@ -102,8 +102,8 @@ export default {
         healthBar: {
           image: "health",
           scale: 1,
-          x: -76,
-          y: -469,
+          x: -72,
+          y: -474,
           angle: 0,
         },
       },
@@ -111,13 +111,13 @@ export default {
     smallBlue: {
       image: "planet3",
       scale: 0.8,
-      x: -700,
-      y: 380,
+      x: -704,
+      y: 383,
     },
     smallRed: {
       image: "planet4",
       scale: 0.8,
-      x: 760,
+      x: 757,
       y: -446,
     },
   },
