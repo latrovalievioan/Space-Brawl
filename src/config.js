@@ -63,6 +63,10 @@ export default {
         },
         shadow: {
           image: "shadow",
+          scale: 1,
+          x: 40,
+          y: 220,
+          angle: 180,
         },
         healthBar: {
           image: "health",
@@ -83,6 +87,10 @@ export default {
         },
         shadow: {
           image: "shadow",
+          scale: 1,
+          x: -60,
+          y: -340,
+          angle: 0,
         },
         healthBar: {
           image: "health",

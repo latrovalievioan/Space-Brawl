@@ -4,10 +4,11 @@ import { scaleXY } from "../core/utils";
 export default class Rover extends Container {
   constructor({ body, shadow, healthBar }) {
     super();
-    (this._bodyConfig = body),
-      (this._shadowConfig = shadow),
-      (this._healthBarConfig = healthBar);
+    this._bodyConfig = body;
+    this._shadowConfig = shadow;
+    this._healthBarConfig = healthBar;
     this._createRoverBody(this._bodyConfig);
+    this._createRoverShadow(this._shadowConfig);
   }
 
   _createRoverBody({ image, scale = 1, x = 0, y = 0, angle = 0 }) {
@@ -18,5 +19,14 @@ export default class Rover extends Container {
     this._body.y = y;
     this._body.angle = angle;
     this.addChild(this._body);
+  }
+  _createRoverShadow({ image, scale, x, y, angle }) {
+    this._shadow = new Sprite.from(image);
+    this._shadow.anchor.set(0.5);
+    scaleXY(this._shadow, scale);
+    this._shadow.x = x;
+    this._shadow.y = y;
+    this._shadow.angle = angle;
+    this.addChild(this._shadow);
   }
 }
