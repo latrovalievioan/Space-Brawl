@@ -73,6 +73,10 @@ export default {
         },
         healthBar: {
           image: "health",
+          scale: 1,
+          x: 44,
+          y: 362,
+          angle: 180,
         },
       },
     },
@@ -97,6 +101,10 @@ export default {
         },
         healthBar: {
           image: "health",
+          scale: 1,
+          x: -76,
+          y: -469,
+          angle: 0,
         },
       },
     },

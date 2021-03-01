@@ -1,7 +1,8 @@
 import { Container, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
 import Rover from "./Rover";
-import config from "../config";
+import gsap from "gsap/all";
+import { random } from "../core/utils";
 
 export default class Planet extends Container {
   constructor({ image, x = 0, y = 0, scale, rover }) {
@@ -10,7 +11,7 @@ export default class Planet extends Container {
     this._x = x;
     this._y = y;
     this._scale = scale;
-    this._rover = rover;
+    this._roverConfig = rover;
     this._createPlanet();
   }
 
@@ -21,11 +22,24 @@ export default class Planet extends Container {
     this._body.y = this._y;
     scaleXY(this._body, this._scale);
     this.addChild(this._body);
-    if (this._rover) this._createRover();
+    if (this._roverConfig) this._createRover();
+    // this._floatAnimation();
   }
 
   _createRover() {
-    const rover = new Rover(this._rover);
-    this._body.addChild(rover);
+    this._rover = new Rover(this._roverConfig);
+    this._body.addChild(this._rover);
+  }
+
+  _floatAnimation() {
+    this._tl = gsap.timeline();
+    this._tl.to(this, {
+      x: `+=${random(-20, 20)}`,
+      y: `-=${random(-20, 20)}`,
+      repeat: -1,
+      yoyo: true,
+      ease: "none",
+      duration: random(1.5, 3),
+    });
   }
 }
