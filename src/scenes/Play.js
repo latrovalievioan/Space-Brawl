@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { fit } from "../core/utils";
 import config from "../config";
 import Planet from "../components/Planet";
+import { scaleXY } from "../core/utils";
 
 export default class Play extends Scene {
   constructor() {
@@ -17,7 +18,9 @@ export default class Play extends Scene {
   _createBackground() {
     this._background = new Sprite.from("playScene");
     this._background.anchor.set(0.5);
-    fit(this._background, config.view, true);
+    scaleXY(this._background, config.backgroundImage.scale);
+    this._background.y += 55;
+    // fit(this._background, config.view, true);
     this.addChild(this._background);
   }
 

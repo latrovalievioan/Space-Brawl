@@ -8,6 +8,9 @@ export default {
     resizeTo: window,
     centerOnResize: true,
   },
+  backgroundImage: {
+    scale: 0.8,
+  },
   game: {
     width: 1000,
     height: 500,
