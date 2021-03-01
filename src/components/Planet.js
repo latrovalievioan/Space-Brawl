@@ -23,7 +23,7 @@ export default class Planet extends Container {
     scaleXY(this._body, this._scale);
     this.addChild(this._body);
     if (this._roverConfig) this._createRover();
-    // this._floatAnimation();
+    this._floatAnimation();
   }
 
   _createRover() {
