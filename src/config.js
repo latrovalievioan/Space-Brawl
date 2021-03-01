@@ -21,7 +21,7 @@ export default {
       hideDelay: 0,
     },
     Loading: {
-      hideDelay: 1000,
+      hideDelay: 0,
       backgroundBlur: 20,
       logoScale: 3.5,
       loadingBar: {
@@ -39,8 +39,67 @@ export default {
         radius: 50,
       },
     },
+    Tutorial: {
+      backgroundBlur: 20,
+      keyImageScale: 0.7,
+    },
   },
   assets: {
     root: "/",
+  },
+  planets: {
+    blueBig: {
+      image: "planet2",
+      scale: 0.8,
+      x: -580,
+      y: -300,
+      rover: {
+        body: {
+          image: "rover",
+          scale: 1,
+          x: 40,
+          y: 280,
+          angle: 180,
+        },
+        shadow: {
+          image: "shadow",
+        },
+        healthBar: {
+          image: "health",
+        },
+      },
+    },
+    redBig: {
+      image: "planet1",
+      scale: 0.8,
+      x: 410,
+      y: 425,
+      rover: {
+        body: {
+          image: "rover",
+          scale: 1,
+          x: -60,
+          y: -400,
+        },
+        shadow: {
+          image: "shadow",
+        },
+        healthBar: {
+          image: "health",
+        },
+      },
+    },
+    smallBlue: {
+      image: "planet3",
+      scale: 0.8,
+      x: -700,
+      y: 380,
+    },
+    smallRed: {
+      image: "planet4",
+      scale: 0.8,
+      x: 760,
+      y: -446,
+    },
   },
 };
