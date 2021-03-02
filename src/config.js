@@ -9,7 +9,7 @@ export default {
     centerOnResize: true,
   },
   backgroundImage: {
-    scale: 0.8,
+    scale: 1,
   },
   game: {
     width: 1000,
@@ -53,9 +53,9 @@ export default {
   planets: {
     blueBig: {
       image: "planet2",
-      scale: 0.8,
-      x: -584,
-      y: -297,
+      scale: 1,
+      x: -729,
+      y: -385,
       rover: {
         body: {
           image: "rover",
@@ -89,22 +89,22 @@ export default {
         upperPart: {
           x: 83,
           y: 404,
-          scale: 0.83,
+          scale: 1,
           angle: 135,
         },
         lowerPart: {
           x: 183,
           y: 306,
-          scale: 0.83,
+          scale: 1,
           angle: 135,
         },
       },
     },
     redBig: {
       image: "planet1",
-      scale: 0.8,
-      x: 407,
-      y: 427,
+      scale: 1,
+      x: 508,
+      y: 521,
       rover: {
         body: {
           image: "rover",
@@ -137,28 +137,38 @@ export default {
         upperPart: {
           x: -83,
           y: -520,
-          scale: 0.83,
+          scale: 1,
           angle: 315,
         },
         lowerPart: {
           x: -183,
           y: -420,
-          scale: 0.83,
+          scale: 1,
           angle: 315,
         },
+      },
+      rocket: {
+        body: {
+          image: "rocket",
+          scale: 1,
+          x: 310,
+          y: 70,
+          angle: 295,
+        },
+        flame: {},
       },
     },
     smallBlue: {
       image: "planet3",
-      scale: 0.8,
-      x: -704,
-      y: 383,
+      scale: 1,
+      x: -880,
+      y: 467,
     },
     smallRed: {
       image: "planet4",
-      scale: 0.8,
-      x: 757,
-      y: -446,
+      scale: 1,
+      x: 947,
+      y: -570,
     },
   },
 };

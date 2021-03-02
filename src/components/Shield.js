@@ -1,5 +1,6 @@
 import { Container, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
+import Assets from "../core/AssetManager";
 
 export default class Shield extends Container {
   constructor({ activePart, inactivePart, upperPart, lowerPart }, player) {
@@ -41,8 +42,10 @@ export default class Shield extends Container {
         (e.key === "ArrowUp" &&
           this._activePart.x === this._lowerPartConfig.x)) &&
       this._player
-    )
+    ) {
+      Assets.sounds.shield.play();
       this._swapShield();
+    }
   }
   _swapShield() {
     [

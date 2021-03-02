@@ -91,6 +91,7 @@ export default class Loading extends Scene {
     };
     const sounds = {
       battleMusic: Assets.sounds.fight,
+      shield: Assets.sounds.shield,
     };
 
     return super.preload({ images, sounds });

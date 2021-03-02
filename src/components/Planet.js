@@ -4,9 +4,13 @@ import Rover from "./Rover";
 import gsap from "gsap/all";
 import { random } from "../core/utils";
 import Shield from "./Shield";
+import Rocket from "./Rocket";
 
 export default class Planet extends Container {
-  constructor({ image, x = 0, y = 0, scale, rover, shield }, player = false) {
+  constructor(
+    { image, x = 0, y = 0, scale, rover, shield, rocket },
+    player = false
+  ) {
     super();
     this._player = player;
     this._image = image;
@@ -15,6 +19,7 @@ export default class Planet extends Container {
     this._scale = scale;
     this._roverConfig = rover;
     this._shieldConfig = shield;
+    this._rocketConfig = rocket;
     this._createPlanet();
     this.player = player;
   }
@@ -28,7 +33,9 @@ export default class Planet extends Container {
     this.addChild(this._body);
     if (this._roverConfig) this._createRover();
     if (this._shieldConfig) this._createShield();
-    this._floatAnimation();
+    if (this._rocketConfig) this._createRocket();
+
+    // this._floatAnimation();
   }
 
   _createRover() {
@@ -38,6 +45,11 @@ export default class Planet extends Container {
   _createShield() {
     this.shield = new Shield(this._shieldConfig, this._player);
     this._body.addChild(this.shield);
+  }
+
+  _createRocket() {
+    this._rocket = new Rocket(this._rocketConfig);
+    this.addChild(this._rocket);
   }
 
   _floatAnimation() {

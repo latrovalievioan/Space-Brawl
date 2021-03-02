@@ -10,7 +10,7 @@ export default class Play extends Scene {
     super();
   }
   async onCreated() {
-    Assets.sounds.battleMusic.play();
+    // Assets.sounds.battleMusic.play();
     this._createBackground();
     this._createPlanets();
   }
@@ -20,7 +20,6 @@ export default class Play extends Scene {
     this._background.anchor.set(0.5);
     scaleXY(this._background, config.backgroundImage.scale);
     this._background.y += 55;
-    // fit(this._background, config.view, true);
     this.addChild(this._background);
   }
 
