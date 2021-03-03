@@ -89,13 +89,13 @@ export default {
         upperPart: {
           x: 83,
           y: 404,
-          scale: 1,
+          scale: 0.83,
           angle: 135,
         },
         lowerPart: {
           x: 183,
           y: 306,
-          scale: 1,
+          scale: 0.83,
           angle: 135,
         },
       },
@@ -135,27 +135,17 @@ export default {
           image: "shieldInactive",
         },
         upperPart: {
-          x: -83,
-          y: -520,
-          scale: 1,
+          x: -79,
+          y: -519,
+          scale: 0.83,
           angle: 315,
         },
         lowerPart: {
-          x: -183,
+          x: -180,
           y: -420,
-          scale: 1,
+          scale: 0.83,
           angle: 315,
         },
-      },
-      rocket: {
-        body: {
-          image: "rocket",
-          scale: 1,
-          x: 310,
-          y: 70,
-          angle: 295,
-        },
-        flame: {},
       },
     },
     smallBlue: {
@@ -170,5 +160,15 @@ export default {
       x: 947,
       y: -570,
     },
+  },
+  rocket: {
+    body: {
+      image: "rocket",
+      scale: 1,
+      x: -635,
+      y: -40,
+      angle: 295,
+    },
+    flame: {},
   },
 };

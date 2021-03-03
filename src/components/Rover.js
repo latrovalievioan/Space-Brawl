@@ -1,5 +1,6 @@
 import { Container, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
+import HealthBar from "./HealthBar";
 
 export default class Rover extends Container {
   constructor({ body, shadow, healthBar }) {
@@ -9,7 +10,7 @@ export default class Rover extends Container {
     this._healthBarConfig = healthBar;
     this._createRoverBody(this._bodyConfig);
     this._createRoverShadow(this._shadowConfig);
-    this._createHealthBar(this._healthBarConfig);
+    this._createHealthBar();
   }
 
   _createRoverBody({ image, scale = 1, x = 0, y = 0, angle = 0 }) {
@@ -30,13 +31,8 @@ export default class Rover extends Container {
     this._shadow.angle = angle;
     this.addChild(this._shadow);
   }
-  _createHealthBar({ image, scale, x, y, angle }) {
-    this._healthBar = new Sprite.from(image);
-    this._healthBar.anchor.set(0.5);
-    scaleXY(this._healthBar, scale);
-    this._healthBar.x = x;
-    this._healthBar.y = y;
-    this._healthBar.angle = angle;
+  _createHealthBar() {
+    this._healthBar = new HealthBar(this._healthBarConfig);
     this.addChild(this._healthBar);
   }
 }

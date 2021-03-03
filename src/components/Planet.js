@@ -33,7 +33,6 @@ export default class Planet extends Container {
     this.addChild(this._body);
     if (this._roverConfig) this._createRover();
     if (this._shieldConfig) this._createShield();
-    if (this._rocketConfig) this._createRocket();
 
     // this._floatAnimation();
   }
@@ -45,11 +44,6 @@ export default class Planet extends Container {
   _createShield() {
     this.shield = new Shield(this._shieldConfig, this._player);
     this._body.addChild(this.shield);
-  }
-
-  _createRocket() {
-    this._rocket = new Rocket(this._rocketConfig);
-    this.addChild(this._rocket);
   }
 
   _floatAnimation() {

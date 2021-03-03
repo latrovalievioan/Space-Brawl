@@ -4,6 +4,7 @@ import config from "../config";
 import Planet from "../components/Planet";
 import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
+import Rocket from "../components/Rocket";
 
 export default class Play extends Scene {
   constructor() {
@@ -13,6 +14,7 @@ export default class Play extends Scene {
     // Assets.sounds.battleMusic.play();
     this._createBackground();
     this._createPlanets();
+    // this._createRocket();
   }
 
   _createBackground() {
@@ -32,6 +34,11 @@ export default class Play extends Scene {
     this.addChild(smallBluePlanet);
     const smallRedPlanet = new Planet(config.planets.smallRed);
     this.addChild(smallRedPlanet);
+  }
+
+  _createRocket() {
+    this._rocket = new Rocket(config.rocket);
+    this.addChild(this._rocket);
   }
 
   /**
