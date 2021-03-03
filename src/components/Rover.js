@@ -3,11 +3,12 @@ import { scaleXY } from "../core/utils";
 import HealthBar from "./HealthBar";
 
 export default class Rover extends Container {
-  constructor({ body, shadow, healthBar }) {
+  constructor({ body, shadow, healthBar, healthMeter }) {
     super();
     this._bodyConfig = body;
     this._shadowConfig = shadow;
     this._healthBarConfig = healthBar;
+    this._healthMeterConfig = healthMeter;
     this._createRoverBody(this._bodyConfig);
     this._createRoverShadow(this._shadowConfig);
     this._createHealthBar();
@@ -32,7 +33,10 @@ export default class Rover extends Container {
     this.addChild(this._shadow);
   }
   _createHealthBar() {
-    this._healthBar = new HealthBar(this._healthBarConfig);
+    this._healthBar = new HealthBar(
+      this._healthBarConfig,
+      this._healthMeterConfig
+    );
     this.addChild(this._healthBar);
   }
 }

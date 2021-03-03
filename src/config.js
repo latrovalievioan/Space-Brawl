@@ -78,6 +78,14 @@ export default {
           y: 358,
           angle: 180,
         },
+        healthMeter: {
+          image: "healthMeter",
+          scale: 1,
+          x: 52,
+          y: 358,
+          angle: 180,
+          damage: 0.1,
+        },
       },
       shield: {
         activePart: {
@@ -123,6 +131,13 @@ export default {
           image: "health",
           scale: 1,
           x: -72,
+          y: -474,
+          angle: 0,
+        },
+        healthMeter: {
+          image: "healthMeter",
+          scale: 1,
+          x: -73,
           y: -474,
           angle: 0,
         },
