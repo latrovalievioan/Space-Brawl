@@ -5,6 +5,7 @@ import Planet from "../components/Planet";
 import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
 import Rocket from "../components/Rocket";
+import { detectCollision } from "../core/utils";
 
 export default class Play extends Scene {
   constructor() {
@@ -14,7 +15,8 @@ export default class Play extends Scene {
     // Assets.sounds.battleMusic.play();
     this._createBackground();
     this._createPlanets();
-    // this._createRocket();
+    this._createRocket();
+    this.update();
   }
 
   _createBackground() {
@@ -26,19 +28,28 @@ export default class Play extends Scene {
   }
 
   _createPlanets() {
-    const blueBigPlanet = new Planet(config.planets.blueBig);
-    this.addChild(blueBigPlanet);
-    const redBigPlanet = new Planet(config.planets.redBig, true);
-    this.addChild(redBigPlanet);
-    const smallBluePlanet = new Planet(config.planets.smallBlue);
-    this.addChild(smallBluePlanet);
-    const smallRedPlanet = new Planet(config.planets.smallRed);
-    this.addChild(smallRedPlanet);
+    this._blueBigPlanet = new Planet(config.planets.blueBig);
+    this.addChild(this._blueBigPlanet);
+    this._redBigPlanet = new Planet(config.planets.redBig, true);
+    this.addChild(this._redBigPlanet);
+    this._smallBluePlanet = new Planet(config.planets.smallBlue);
+    this.addChild(this._smallBluePlanet);
+    this._smallRedPlanet = new Planet(config.planets.smallRed);
+    this.addChild(this._smallRedPlanet);
   }
 
   _createRocket() {
     this._rocket = new Rocket(config.rocket);
     this.addChild(this._rocket);
+  }
+
+  update() {
+    if (detectCollision(this._rocket, this._blueBigPlanet._rover)) {
+      this._blueBigPlanet._rover._healthBar.loseHealth(config.planets.blueBig);
+      this.removeChild(this._rocket);
+      this._createRocket();
+    }
+    requestAnimationFrame(() => this.update());
   }
 
   /**

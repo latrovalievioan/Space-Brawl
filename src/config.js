@@ -56,6 +56,7 @@ export default {
       scale: 1,
       x: -729,
       y: -385,
+      damage: 0.3,
       rover: {
         body: {
           image: "rover",
