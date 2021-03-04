@@ -5,7 +5,7 @@ import Planet from "../components/Planet";
 import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
 import Rocket from "../components/Rocket";
-import { detectCollision } from "../core/utils";
+import { random } from "../core/utils";
 
 export default class Play extends Scene {
   constructor() {
@@ -21,7 +21,7 @@ export default class Play extends Scene {
     };
     this._player = "redBig";
     this._currentTurn = this._turns.BLUE_BIG;
-    this._startTurn();
+    return this._startTurn();
   }
 
   _createBackground() {
@@ -46,25 +46,39 @@ export default class Play extends Scene {
   _createRocket() {
     this._rocket = new Rocket(config.planets[this._currentTurn].rocket);
     this.addChild(this._rocket);
+    return this._rocket.animateRocket();
   }
 
-  _startTurn() {
+  _swapShieldRandomiser5000() {
+    if (Math.round(random(0.25, 1))) this._blueBigPlanet.shield._swapShield();
+  }
+
+  // _checkHit(){
+
+  // }
+  async _startTurn() {
+    const handler = async (e) => {
+      if (e.key === " ") {
+        setTimeout(() => this._swapShieldRandomiser5000(), 1000);
+        await this._createRocket();
+        this.removeChild(this._rocket);
+        this._currentTurn = this._turns.BLUE_BIG;
+        this._startTurn();
+      } else {
+        document.addEventListener("keydown", (e) => handler(e), { once: true });
+      }
+    };
     if (this._currentTurn === this._player) {
-      document.addEventListener("keydown", (e) => {
-        this._createRocket();
-      });
+      setTimeout(() => this._swapShieldRandomiser5000(), 500);
+      document.addEventListener("keydown", (e) => handler(e), { once: true });
+    } else if (this._currentTurn !== this._player) {
+      setTimeout(async () => {
+        await this._createRocket();
+        this.removeChild(this._rocket);
+        this._currentTurn = this._turns.RED_BIG;
+        this._startTurn();
+      }, 2000);
     }
-    if (this._currentTurn !== this._player) {
-      setTimeout(() => this._createRocket(), 3000);
-    }
-  }
-
-  _changeTurn() {
-    this.removeChild(this._rocket);
-    if (this._currentTurn === this._turns.RED_BIG)
-      this._currentTurn = this._turns.BLUE_BIG;
-    if (this._currentTurn === this._turns.BLUE_BIG)
-      this._currentTurn === this._turns.RED_BIG;
   }
 
   /**

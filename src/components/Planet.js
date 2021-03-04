@@ -34,7 +34,7 @@ export default class Planet extends Container {
     if (this._roverConfig) this._createRover();
     if (this._shieldConfig) this._createShield();
 
-    // this._floatAnimation();
+    this._floatAnimation();
   }
 
   _createRover() {

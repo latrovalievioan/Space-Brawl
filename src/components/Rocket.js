@@ -12,7 +12,6 @@ export default class Rocket extends Container {
     this._flameConfig = flame;
     this._path = paths[Math.floor(random(0, paths.length))];
     this._createBody(this._bodyConfig);
-    this._shootRocket();
   }
   _createBody({ image, scale = 1, x = 0, y = 0, angle = 0 }) {
     this._body = new Sprite.from(image);
@@ -23,11 +22,8 @@ export default class Rocket extends Container {
     this._body.angle = angle;
     this.addChild(this._body);
   }
-  async _shootRocket() {
-    await this._animateRocket();
-    this.removeChild(this._body);
-  }
-  _animateRocket() {
+
+  animateRocket() {
     this._tl = gsap.timeline();
     this._tl.to(this._body, {
       motionPath: {

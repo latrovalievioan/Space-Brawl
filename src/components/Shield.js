@@ -38,9 +38,11 @@ export default class Shield extends Container {
   _eventHandler(e) {
     if (
       (e.key === "ArrowDown" &&
-        this._activePart.x === this._upperPartConfig.x) ||
-      (e.key === "ArrowUp" && this._activePart.x === this._lowerPartConfig.x)
-      // && this._player
+        this._activePart.x === this._upperPartConfig.x &&
+        this._player) ||
+      (e.key === "ArrowUp" &&
+        this._activePart.x === this._lowerPartConfig.x &&
+        this._player)
     ) {
       Assets.sounds.shield.play();
       this._swapShield();
