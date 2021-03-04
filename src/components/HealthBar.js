@@ -2,12 +2,14 @@ import { Container, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
 
 export default class HealthBar extends Container {
-  constructor(frameConfig, meterConfig) {
+  constructor(frameConfig, meterConfig, health) {
     super();
     this._frameConfig = frameConfig;
     this._meterConfig = meterConfig;
     this._createFrame(this._frameConfig);
     this._createMeter(this._meterConfig);
+    this._fullHealth = health;
+    this._currentHealth = this._fullHealth;
   }
   _createFrame({ image, scale, x, y, angle }) {
     this._frame = new Sprite.from(image);
@@ -28,6 +30,7 @@ export default class HealthBar extends Container {
     this.addChild(this._meter);
   }
   loseHealth({ damage }) {
-    this._meter.scale.x *= damage;
+    this._currentHealth -= damage;
+    this._meter.scale.x *= this._currentHealth / 100;
   }
 }

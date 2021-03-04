@@ -15,8 +15,13 @@ export default class Play extends Scene {
     // Assets.sounds.battleMusic.play();
     this._createBackground();
     this._createPlanets();
-    this._createRocket();
-    this.update();
+    this._turns = {
+      RED_BIG: "redBig",
+      BLUE_BIG: "blueBig",
+    };
+    this._player = "redBig";
+    this._currentTurn = this._turns.BLUE_BIG;
+    this._startTurn();
   }
 
   _createBackground() {
@@ -39,17 +44,27 @@ export default class Play extends Scene {
   }
 
   _createRocket() {
-    this._rocket = new Rocket(config.rocket);
+    this._rocket = new Rocket(config.planets[this._currentTurn].rocket);
     this.addChild(this._rocket);
   }
 
-  update() {
-    if (detectCollision(this._rocket, this._blueBigPlanet._rover)) {
-      this._blueBigPlanet._rover._healthBar.loseHealth(config.planets.blueBig);
-      this.removeChild(this._rocket);
-      this._createRocket();
+  _startTurn() {
+    if (this._currentTurn === this._player) {
+      document.addEventListener("keydown", (e) => {
+        this._createRocket();
+      });
     }
-    requestAnimationFrame(() => this.update());
+    if (this._currentTurn !== this._player) {
+      setTimeout(() => this._createRocket(), 3000);
+    }
+  }
+
+  _changeTurn() {
+    this.removeChild(this._rocket);
+    if (this._currentTurn === this._turns.RED_BIG)
+      this._currentTurn = this._turns.BLUE_BIG;
+    if (this._currentTurn === this._turns.BLUE_BIG)
+      this._currentTurn === this._turns.RED_BIG;
   }
 
   /**

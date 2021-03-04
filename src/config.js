@@ -56,7 +56,17 @@ export default {
       scale: 1,
       x: -729,
       y: -385,
-      damage: 0.3,
+      damage: 10,
+      rocket: {
+        body: {
+          image: "rocket",
+          scale: 1,
+          x: -660,
+          y: -65,
+          angle: 100,
+        },
+        paths: [["M0.5 1L1093 165.5", "side"]],
+      },
       rover: {
         body: {
           image: "rover",
@@ -85,7 +95,10 @@ export default {
           x: 52,
           y: 358,
           angle: 180,
-          damage: 0.1,
+          damage: 10,
+        },
+        health: {
+          fullHealth: 100,
         },
       },
       shield: {
@@ -114,6 +127,16 @@ export default {
       scale: 1,
       x: 508,
       y: 521,
+      rocket: {
+        body: {
+          image: "rocket",
+          scale: 1,
+          x: 410,
+          y: 80,
+          angle: -70,
+        },
+        paths: [["M1093,165.5 L0.5,1", "side"]],
+      },
       rover: {
         body: {
           image: "rover",
@@ -141,6 +164,9 @@ export default {
           x: -73,
           y: -474,
           angle: 0,
+        },
+        health: {
+          fullHealth: 100,
         },
       },
       shield: {
@@ -176,15 +202,5 @@ export default {
       x: 947,
       y: -570,
     },
-  },
-  rocket: {
-    body: {
-      image: "rocket",
-      scale: 1,
-      x: -635,
-      y: -40,
-      angle: 295,
-    },
-    flame: {},
   },
 };

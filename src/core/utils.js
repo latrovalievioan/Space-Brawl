@@ -64,7 +64,7 @@ export function scaleXY(object, val) {
 export function detectCollision(elem1, elem2) {
   return (
     elem1.getBounds().x + elem1.getBounds().width >
-      elem2.getBounds().x + elem2.getBounds().width / 4 &&
+      elem2.getBounds().x + elem2.getBounds().width &&
     elem1.getBounds().x < elem2.getBounds().x + elem2.getBounds().width &&
     elem1.getBounds().y + elem1.getBounds().height > elem2.getBounds().y &&
     elem1.getBounds().y < elem2.getBounds().y + elem2.getBounds().height

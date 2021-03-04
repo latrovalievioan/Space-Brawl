@@ -1,4 +1,4 @@
-import { Container, Sprite } from "pixi.js";
+import { Container, Graphics, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
 
@@ -37,11 +37,10 @@ export default class Shield extends Container {
 
   _eventHandler(e) {
     if (
-      ((e.key === "ArrowDown" &&
+      (e.key === "ArrowDown" &&
         this._activePart.x === this._upperPartConfig.x) ||
-        (e.key === "ArrowUp" &&
-          this._activePart.x === this._lowerPartConfig.x)) &&
-      this._player
+      (e.key === "ArrowUp" && this._activePart.x === this._lowerPartConfig.x)
+      // && this._player
     ) {
       Assets.sounds.shield.play();
       this._swapShield();
