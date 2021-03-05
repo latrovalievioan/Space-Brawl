@@ -5,7 +5,7 @@ import Planet from "../components/Planet";
 import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
 import Rocket from "../components/Rocket";
-import { random } from "../core/utils";
+import { random, detectCollision } from "../core/utils";
 
 export default class Play extends Scene {
   constructor() {
@@ -21,7 +21,7 @@ export default class Play extends Scene {
     };
     this._player = "redBig";
     this._currentTurn = this._turns.BLUE_BIG;
-    return this._startTurn();
+    // return this._startTurn();
   }
 
   _createBackground() {
@@ -53,9 +53,6 @@ export default class Play extends Scene {
     if (Math.round(random(0.25, 1))) this._blueBigPlanet.shield._swapShield();
   }
 
-  // _checkHit(){
-
-  // }
   async _startTurn() {
     const handler = async (e) => {
       if (e.key === " ") {

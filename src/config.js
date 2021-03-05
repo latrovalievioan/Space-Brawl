@@ -120,6 +120,40 @@ export default {
           scale: 0.83,
           angle: 135,
         },
+        hitBox: {
+          upper: {
+            rect1: {
+              width: 20,
+              height: 110,
+              x: 127,
+              y: 425,
+              angle: 70,
+            },
+            rect2: {
+              width: 20,
+              height: 110,
+              x: 33,
+              y: 425,
+              angle: 110,
+            },
+          },
+          lower: {
+            rect1: {
+              width: 20,
+              height: 110,
+              x: 200,
+              y: 260,
+              angle: -25,
+            },
+            rect2: {
+              width: 20,
+              height: 110,
+              x: 200,
+              y: 350,
+              angle: 25,
+            },
+          },
+        },
       },
     },
     redBig: {
@@ -187,6 +221,40 @@ export default {
           y: -420,
           scale: 0.83,
           angle: 315,
+        },
+        hitBox: {
+          upper: {
+            rect1: {
+              width: 20,
+              height: 110,
+              x: -127,
+              y: -535,
+              angle: 70,
+            },
+            rect2: {
+              width: 20,
+              height: 110,
+              x: -33,
+              y: -535,
+              angle: 110,
+            },
+          },
+          lower: {
+            rect1: {
+              width: 20,
+              height: 110,
+              x: -200,
+              y: -370,
+              angle: -25,
+            },
+            rect2: {
+              width: 20,
+              height: 110,
+              x: -200,
+              y: -470,
+              angle: 25,
+            },
+          },
         },
       },
     },
