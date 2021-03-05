@@ -21,7 +21,10 @@ export default class Play extends Scene {
     };
     this._player = "redBig";
     this._currentTurn = this._turns.BLUE_BIG;
-    // return this._startTurn();
+    this._planetToCheck = this._redBigPlanet;
+
+    this._checkHits();
+    return this._startTurn();
   }
 
   _createBackground() {
@@ -76,6 +79,20 @@ export default class Play extends Scene {
         this._startTurn();
       }, 2000);
     }
+  }
+
+  _checkHits() {
+    if (this._rocket) {
+      if (detectCollision(this._rocket, this._planetToCheck._rover)) {
+        this._planetToCheck._rover._healthBar.loseHealth(config.planets.redBig);
+        this.removeChild(this._rocket);
+        if (this._planetToCheck === this._redBigPlanet)
+          this._planetToCheck = this._blueBigPlanet;
+        else this._planetToCheck = this._redBigPlanet;
+      }
+    }
+
+    requestAnimationFrame(() => this._checkHits());
   }
 
   /**

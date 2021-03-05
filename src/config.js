@@ -161,6 +161,7 @@ export default {
       scale: 1,
       x: 508,
       y: 521,
+      damage: 10,
       rocket: {
         body: {
           image: "rocket",
