@@ -82,17 +82,18 @@ export default class Play extends Scene {
   }
 
   _checkHits() {
-    if (this._rocket) {
-      if (detectCollision(this._rocket, this._planetToCheck._rover)) {
-        this._planetToCheck._rover._healthBar.loseHealth(config.planets.redBig);
-        this.removeChild(this._rocket);
-        if (this._planetToCheck === this._redBigPlanet)
-          this._planetToCheck = this._blueBigPlanet;
-        else this._planetToCheck = this._redBigPlanet;
-      }
+    if (
+      this._rocket &&
+      detectCollision(this._rocket, this._planetToCheck._rover)
+    ) {
+      this._planetToCheck._rover._healthBar.loseHealth(config.planets.redBig);
+      this.removeChild(this._rocket);
+      this._planetToCheck =
+        this._planetToCheck === this._redBigPlanet
+          ? this._blueBigPlanet
+          : this._redBigPlanet;
     }
-
-    requestAnimationFrame(() => this._checkHits());
+    setTimeout(() => this._checkHits(), 100);
   }
 
   /**

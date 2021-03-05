@@ -62,11 +62,12 @@ export function scaleXY(object, val) {
  * @param {object} elem2
  */
 export function detectCollision(elem1, elem2) {
+  const e1 = elem1.getBounds();
+  const e2 = elem2.getBounds();
   return (
-    elem1.getBounds().x + elem1.getBounds().width >
-      elem2.getBounds().x + elem2.getBounds().width / 4 &&
-    elem1.getBounds().x < elem2.getBounds().x + elem2.getBounds().width &&
-    elem1.getBounds().y + elem1.getBounds().height > elem2.getBounds().y &&
-    elem1.getBounds().y < elem2.getBounds().y + elem2.getBounds().height
+    e1.x + e1.width > e2.x + e2.width / 4 &&
+    e1.x < e2.x + e2.width &&
+    e1.y + e1.height > e2.y &&
+    e1.y < e2.y + e2.height
   );
 }
