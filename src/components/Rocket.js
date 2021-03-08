@@ -6,10 +6,11 @@ gsap.registerPlugin(MotionPathPlugin);
 import { random } from "../core/utils";
 
 export default class Rocket extends Container {
-  constructor({ body, flame, paths }) {
+  constructor({ body, flame, paths, returnPaths }) {
     super();
     this._bodyConfig = body;
     this._flameConfig = flame;
+    this._returnPaths = returnPaths;
     this._path = paths[Math.floor(random(0, paths.length))];
     this._createBody(this._bodyConfig);
   }

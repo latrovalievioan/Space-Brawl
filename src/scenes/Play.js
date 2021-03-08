@@ -1,4 +1,4 @@
-import { Sprite } from "pixi.js";
+import { Rectangle, Sprite } from "pixi.js";
 import Scene from "./Scene";
 import config from "../config";
 import Planet from "../components/Planet";
@@ -23,7 +23,7 @@ export default class Play extends Scene {
     this._currentTurn = this._turns.BLUE_BIG;
     this._planetToCheck = this._redBigPlanet;
 
-    this._checkHits();
+    this._update();
     return this._startTurn();
   }
 
@@ -46,8 +46,8 @@ export default class Play extends Scene {
     this.addChild(this._smallRedPlanet);
   }
 
-  _createRocket() {
-    this._rocket = new Rocket(config.planets[this._currentTurn].rocket);
+  _createRocket(rocketConfig) {
+    this._rocket = new Rocket(rocketConfig);
     this.addChild(this._rocket);
     return this._rocket.animateRocket();
   }
@@ -60,7 +60,7 @@ export default class Play extends Scene {
     const handler = async (e) => {
       if (e.key === " ") {
         setTimeout(() => this._swapShieldRandomiser5000(), 1000);
-        await this._createRocket();
+        await this._createRocket(config.planets[this._currentTurn].rocket);
         this.removeChild(this._rocket);
         this._currentTurn = this._turns.BLUE_BIG;
         this._startTurn();
@@ -73,7 +73,7 @@ export default class Play extends Scene {
       document.addEventListener("keydown", (e) => handler(e), { once: true });
     } else if (this._currentTurn !== this._player) {
       setTimeout(async () => {
-        await this._createRocket();
+        await this._createRocket(config.planets[this._currentTurn].rocket);
         this.removeChild(this._rocket);
         this._currentTurn = this._turns.RED_BIG;
         this._startTurn();
@@ -81,7 +81,7 @@ export default class Play extends Scene {
     }
   }
 
-  _checkHits() {
+  _checkRoverHit() {
     if (
       this._rocket &&
       detectCollision(this._rocket, this._planetToCheck._rover)
@@ -93,7 +93,25 @@ export default class Play extends Scene {
           ? this._blueBigPlanet
           : this._redBigPlanet;
     }
-    setTimeout(() => this._checkHits(), 100);
+  }
+
+  _checkShieldHit() {
+    if (this._rocket)
+      this._planetToCheck.shield.hitBoxRectangles.forEach((rectangle) => {
+        if (detectCollision(this._rocket, rectangle)) {
+          this.removeChild(this._rocket);
+          this._planetToCheck =
+            this._planetToCheck === this._redBigPlanet
+              ? this._blueBigPlanet
+              : this._redBigPlanet;
+        }
+      });
+  }
+
+  _update() {
+    this._checkRoverHit();
+    this._checkShieldHit();
+    setTimeout(() => this._update(), 100);
   }
 
   /**
