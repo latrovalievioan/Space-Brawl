@@ -8,48 +8,30 @@ export default class Shield extends Container {
     player
   ) {
     super();
-    this._player = player;
-    this._activePartConfig = activePart;
-    this._inactivePartConfig = inactivePart;
     this._upperPartConfig = upperPart;
     this._lowerPartConfig = lowerPart;
     this._hitBoxConfig = hitBox;
     this.hitBoxRectangles = [];
     this._createHitBox(this._hitBoxConfig.upper);
-    this._createActivePart(this._activePartConfig, this._upperPartConfig);
-    this._createInactivePart(this._inactivePartConfig, this._lowerPartConfig);
-    document.addEventListener("keydown", (e) => {
-      this._eventHandler(e);
-    });
-  }
-  _createActivePart({ image }, { scale = 0, x = 0, y = 0, angle = 0 }) {
-    this._activePart = new Sprite.from(image);
-    this._activePart.anchor.set(0.5);
-    scaleXY(this._activePart, scale);
-    this._activePart.x = x;
-    this._activePart.y = y;
-    this._activePart.angle = angle;
-    this.addChild(this._activePart);
-  }
-  _createInactivePart({ image }, { scale = 0, x = 0, y = 0, angle = 0 }) {
-    this._inactivePart = new Sprite.from(image);
-    this._inactivePart.anchor.set(0.5);
-    scaleXY(this._inactivePart, scale);
-    this._inactivePart.x = x;
-    this._inactivePart.y = y;
-    this._inactivePart.angle = angle;
-    this.addChild(this._inactivePart);
+    this._activePart = this._createShieldParts(activePart, upperPart);
+    this._inactivePart = this._createShieldParts(inactivePart, lowerPart);
   }
 
-  _eventHandler(e) {
+  _createShieldParts({ image }, { scale, x, y, angle }) {
+    const shieldPart = new Sprite.from(image);
+    shieldPart.anchor.set(0.5);
+    scaleXY(shieldPart, scale);
+    shieldPart.x = x;
+    shieldPart.y = y;
+    shieldPart.angle = angle;
+    this.addChild(shieldPart);
+    return shieldPart;
+  }
+
+  _shieldSwapHandler({ key }) {
     if (
-      (e.key === "ArrowDown" &&
-        this._activePart.x === this._upperPartConfig.x) ||
-      // &&
-      // this._player
-      (e.key === "ArrowUp" && this._activePart.x === this._lowerPartConfig.x)
-      // &&
-      // this._player
+      (key === "ArrowDown" && this._activePart.x === this._upperPartConfig.x) ||
+      (key === "ArrowUp" && this._activePart.x === this._lowerPartConfig.x)
     ) {
       Assets.sounds.shield.play();
       this._swapShield();
@@ -57,57 +39,38 @@ export default class Shield extends Container {
   }
   _swapShield() {
     this._swapHitBoxes();
+
+    const active = this._activePart;
+    const inactive = this._inactivePart;
     [
-      this._activePart.x,
-      this._activePart.y,
-      this._activePart.angle,
-      this._inactivePart.x,
-      this._inactivePart.y,
-      this._inactivePart.angle,
+      active.x,
+      active.y,
+      active.angle,
+      inactive.x,
+      inactive.y,
+      inactive.angle,
     ] = [
-      this._inactivePart.x,
-      this._inactivePart.y,
-      this._inactivePart.angle - 90,
-      this._activePart.x,
-      this._activePart.y,
-      this._activePart.angle + 90,
+      inactive.x,
+      inactive.y,
+      inactive.angle - 90,
+      active.x,
+      active.y,
+      active.angle + 90,
     ];
   }
 
   _swapHitBoxes() {
-    if (this.rectangle1.x === this._hitBoxConfig.upper.rect1.x) {
-      [
-        this.rectangle1.x,
-        this.rectangle1.y,
-        this.rectangle1.angle,
-        this.rectangle2.x,
-        this.rectangle2.y,
-        this.rectangle2.angle,
-      ] = [
-        this._hitBoxConfig.lower.rect1.x,
-        this._hitBoxConfig.lower.rect1.y,
-        this._hitBoxConfig.lower.rect1.angle,
-        this._hitBoxConfig.lower.rect2.x,
-        this._hitBoxConfig.lower.rect2.y,
-        this._hitBoxConfig.lower.rect2.angle,
-      ];
-    } else if (this.rectangle1.x === this._hitBoxConfig.lower.rect1.x) {
-      [
-        this.rectangle1.x,
-        this.rectangle1.y,
-        this.rectangle1.angle,
-        this.rectangle2.x,
-        this.rectangle2.y,
-        this.rectangle2.angle,
-      ] = [
-        this._hitBoxConfig.upper.rect1.x,
-        this._hitBoxConfig.upper.rect1.y,
-        this._hitBoxConfig.upper.rect1.angle,
-        this._hitBoxConfig.upper.rect2.x,
-        this._hitBoxConfig.upper.rect2.y,
-        this._hitBoxConfig.upper.rect2.angle,
-      ];
-    }
+    const { lower, upper } = this._hitBoxConfig;
+    const { rect1, rect2 } =
+      this.rectangle1.x === upper.rect1.x ? lower : upper;
+    [
+      this.rectangle1.x,
+      this.rectangle1.y,
+      this.rectangle1.angle,
+      this.rectangle2.x,
+      this.rectangle2.y,
+      this.rectangle2.angle,
+    ] = [rect1.x, rect1.y, rect1.angle, rect2.x, rect2.y, rect2.angle];
   }
 
   _createHitBox({ rect1, rect2 }) {

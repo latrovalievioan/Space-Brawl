@@ -8,9 +8,6 @@ import Rocket from "../components/Rocket";
 import { random, detectCollision } from "../core/utils";
 
 export default class Play extends Scene {
-  constructor() {
-    super();
-  }
   async onCreated() {
     // Assets.sounds.battleMusic.play();
     this._createBackground();
@@ -20,10 +17,13 @@ export default class Play extends Scene {
       BLUE_BIG: "blueBig",
     };
     this._player = "redBig";
-    this._currentTurn = this._turns.BLUE_BIG;
-    this._planetToCheck = this._redBigPlanet;
+    this._currentPlayer = this._turns.BLUE_BIG;
+    this._targetPlanet = this._redBigPlanet;
 
     this._update();
+    document.addEventListener("keydown", (e) => {
+      this._redBigPlanet.shield._shieldSwapHandler(e);
+    });
     return this._startTurn();
   }
 
@@ -31,14 +31,13 @@ export default class Play extends Scene {
     this._background = new Sprite.from("playScene");
     this._background.anchor.set(0.5);
     scaleXY(this._background, config.backgroundImage.scale);
-    this._background.y += 55;
     this.addChild(this._background);
   }
 
   _createPlanets() {
     this._blueBigPlanet = new Planet(config.planets.blueBig);
     this.addChild(this._blueBigPlanet);
-    this._redBigPlanet = new Planet(config.planets.redBig, true);
+    this._redBigPlanet = new Planet(config.planets.redBig);
     this.addChild(this._redBigPlanet);
     this._smallBluePlanet = new Planet(config.planets.smallBlue);
     this.addChild(this._smallBluePlanet);
@@ -60,22 +59,22 @@ export default class Play extends Scene {
     const handler = async (e) => {
       if (e.key === " ") {
         setTimeout(() => this._swapShieldRandomiser5000(), 1000);
-        await this._createRocket(config.planets[this._currentTurn].rocket);
+        await this._createRocket(config.planets[this._currentPlayer].rocket);
         this.removeChild(this._rocket);
-        this._currentTurn = this._turns.BLUE_BIG;
+        this._currentPlayer = this._turns.BLUE_BIG;
         this._startTurn();
       } else {
         document.addEventListener("keydown", (e) => handler(e), { once: true });
       }
     };
-    if (this._currentTurn === this._player) {
+    if (this._currentPlayer === this._player) {
       setTimeout(() => this._swapShieldRandomiser5000(), 500);
       document.addEventListener("keydown", (e) => handler(e), { once: true });
-    } else if (this._currentTurn !== this._player) {
+    } else if (this._currentPlayer !== this._player) {
       setTimeout(async () => {
-        await this._createRocket(config.planets[this._currentTurn].rocket);
+        await this._createRocket(config.planets[this._currentPlayer].rocket);
         this.removeChild(this._rocket);
-        this._currentTurn = this._turns.RED_BIG;
+        this._currentPlayer = this._turns.RED_BIG;
         this._startTurn();
       }, 2000);
     }
@@ -84,12 +83,12 @@ export default class Play extends Scene {
   _checkRoverHit() {
     if (
       this._rocket &&
-      detectCollision(this._rocket, this._planetToCheck._rover)
+      detectCollision(this._rocket, this._targetPlanet._rover)
     ) {
-      this._planetToCheck._rover._healthBar.loseHealth(config.planets.redBig);
+      this._targetPlanet._rover._healthBar.loseHealth(config.planets.redBig);
       this.removeChild(this._rocket);
-      this._planetToCheck =
-        this._planetToCheck === this._redBigPlanet
+      this._targetPlanet =
+        this._targetPlanet === this._redBigPlanet
           ? this._blueBigPlanet
           : this._redBigPlanet;
     }
@@ -97,11 +96,11 @@ export default class Play extends Scene {
 
   _checkShieldHit() {
     if (this._rocket)
-      this._planetToCheck.shield.hitBoxRectangles.forEach((rectangle) => {
+      this._targetPlanet.shield.hitBoxRectangles.forEach((rectangle) => {
         if (detectCollision(this._rocket, rectangle)) {
           this.removeChild(this._rocket);
-          this._planetToCheck =
-            this._planetToCheck === this._redBigPlanet
+          this._targetPlanet =
+            this._targetPlanet === this._redBigPlanet
               ? this._blueBigPlanet
               : this._redBigPlanet;
         }
