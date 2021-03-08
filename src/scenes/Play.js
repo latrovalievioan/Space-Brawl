@@ -108,9 +108,18 @@ export default class Play extends Scene {
       });
   }
 
+  _checkHealth() {
+    if (this._redBigPlanet._rover._healthBar._currentHealth === 0) {
+      console.log("blue wins");
+    } else if (this._blueBigPlanet._rover._healthBar._currentHealth === 0) {
+      console.log("red wins");
+    }
+  }
+  /// problem here!
   _update() {
     this._checkRoverHit();
     this._checkShieldHit();
+    this._checkHealth();
     setTimeout(() => this._update(), 100);
   }
 
