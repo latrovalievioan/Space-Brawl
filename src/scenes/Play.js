@@ -20,6 +20,22 @@ export default class Play extends Scene {
     this._turn(this._currentTurn);
   }
 
+  async _shootHandler({ key }) {
+    if (key === " ") {
+      await this._shootRocket(this._player._rocketConfig);
+      this.removeChild(this._rocket);
+      this._currentTurn =
+        this._currentTurn === this._blueBigPlanet
+          ? this._redBigPlanet
+          : this._blueBigPlanet;
+      this._turn(this._currentTurn);
+    } else {
+      document.addEventListener("keydown", (e) => this._shootHandler(e), {
+        once: true,
+      });
+    }
+  }
+
   async _turn(player) {
     if (player !== this._player) {
       await this._shootRocket(player._rocketConfig);
@@ -30,21 +46,9 @@ export default class Play extends Scene {
           : this._blueBigPlanet;
       this._turn(this._currentTurn);
     } else {
-      document.addEventListener(
-        "keydown",
-        async ({ key }) => {
-          if (key === " ") {
-            await this._shootRocket(player._rocketConfig);
-            this.removeChild(this._rocket);
-            this._currentTurn =
-              this._currentTurn === this._blueBigPlanet
-                ? this._redBigPlanet
-                : this._blueBigPlanet;
-            this._turn(this._currentTurn);
-          }
-        },
-        { once: true }
-      );
+      document.addEventListener("keydown", (e) => this._shootHandler(e), {
+        once: true,
+      });
     }
   }
 
