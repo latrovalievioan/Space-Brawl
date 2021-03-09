@@ -6,6 +6,11 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
   mode: "production",
   devtool: "eval-source-map",
+  // devServer: {
+  //   host: "192.168.0.118", //your ip address
+  //   port: 8080,
+  //   disableHostCheck: true,
+  // },
   module: {
     rules: [
       {

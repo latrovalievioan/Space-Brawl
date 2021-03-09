@@ -1,5 +1,6 @@
 import { Container, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
+import gsap from "gsap/all";
 
 export default class HealthBar extends Container {
   constructor(frameConfig, meterConfig, health) {
@@ -31,6 +32,8 @@ export default class HealthBar extends Container {
   }
   loseHealth({ damage }) {
     this._currentHealth -= damage;
-    this._meter.scale.x *= this._currentHealth / 100;
+    gsap.to(this._meter.scale, {
+      x: `${this._currentHealth / 100}`,
+    });
   }
 }

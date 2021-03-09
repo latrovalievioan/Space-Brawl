@@ -1,12 +1,10 @@
 import { Container, Graphics, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
+import gsap from "gsap/all";
 
 export default class Shield extends Container {
-  constructor(
-    { activePart, inactivePart, upperPart, lowerPart, hitBox },
-    player
-  ) {
+  constructor({ activePart, inactivePart, upperPart, lowerPart, hitBox }) {
     super();
     this._upperPartConfig = upperPart;
     this._lowerPartConfig = lowerPart;
@@ -42,21 +40,37 @@ export default class Shield extends Container {
 
     const active = this._activePart;
     const inactive = this._inactivePart;
-    [
-      active.x,
-      active.y,
-      active.angle,
-      inactive.x,
-      inactive.y,
-      inactive.angle,
-    ] = [
-      inactive.x,
-      inactive.y,
-      inactive.angle - 90,
-      active.x,
-      active.y,
-      active.angle + 90,
-    ];
+    this._tl = gsap.timeline();
+    this._tl
+      .to(active, {
+        x: inactive.x,
+        y: inactive.y,
+        angle: inactive.angle - 90,
+      })
+      .to(
+        inactive,
+        {
+          x: active.x,
+          y: active.y,
+          angle: active.angle + 90,
+        },
+        "<"
+      );
+    // [
+    //   active.x,
+    //   active.y,
+    //   active.angle,
+    //   inactive.x,
+    //   inactive.y,
+    //   inactive.angle,
+    // ] = [
+    //   inactive.x,
+    //   inactive.y,
+    //   inactive.angle - 90,
+    //   active.x,
+    //   active.y,
+    //   active.angle + 90,
+    // ];
   }
 
   _swapHitBoxes() {
@@ -82,6 +96,7 @@ export default class Shield extends Container {
     this.rectangle1.x = rect1.x;
     this.rectangle1.y = rect1.y;
     this.rectangle1.angle = rect1.angle;
+    this.rectangle1.alpha = 0;
     this.addChild(this.rectangle1);
     this.hitBoxRectangles.push(this.rectangle1);
     this.rectangle2 = PIXI.Sprite.from(PIXI.Texture.WHITE);
@@ -92,6 +107,7 @@ export default class Shield extends Container {
     this.rectangle2.x = rect2.x;
     this.rectangle2.y = rect2.y;
     this.rectangle2.angle = rect2.angle;
+    this.rectangle2.alpha = 0;
     this.addChild(this.rectangle2);
     this.hitBoxRectangles.push(this.rectangle2);
   }

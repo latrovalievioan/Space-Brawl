@@ -7,12 +7,8 @@ import Shield from "./Shield";
 import Rocket from "./Rocket";
 
 export default class Planet extends Container {
-  constructor(
-    { image, x = 0, y = 0, scale, rover, shield, rocket },
-    player = false
-  ) {
+  constructor({ image, x = 0, y = 0, scale, rover, shield, rocket }, name) {
     super();
-    this._player = player;
     this._image = image;
     this._x = x;
     this._y = y;
@@ -21,7 +17,7 @@ export default class Planet extends Container {
     this._shieldConfig = shield;
     this._rocketConfig = rocket;
     this._createPlanet();
-    this.player = player;
+    this.name = name;
   }
 
   _createPlanet() {
@@ -42,7 +38,7 @@ export default class Planet extends Container {
     this._body.addChild(this._rover);
   }
   _createShield() {
-    this.shield = new Shield(this._shieldConfig, this._player);
+    this.shield = new Shield(this._shieldConfig);
     this._body.addChild(this.shield);
   }
 
