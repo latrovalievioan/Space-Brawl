@@ -16,6 +16,7 @@ export default class Play extends Scene {
     this._currentTurn = this._redBigPlanet;
     this._targetPlanet = this._blueBigPlanet;
     this._player = this._redBigPlanet;
+    this._bot = this._blueBigPlanet;
     this._turn(this._currentTurn);
   }
 
@@ -32,8 +33,11 @@ export default class Play extends Scene {
   _onAnimationUpdate(body) {
     this._roverCollisionDetection(body);
     this._shieldCollisionDetection(body);
+    this._randomizeBotShield();
   }
-
+  _randomizeBotShield() {
+    if (Math.floor(random(0, 70)) === 0) this._bot.shield._swapShield();
+  }
   _roverCollisionDetection(body) {
     if (detectCollision(body, this._targetPlanet._rover)) {
       this._targetPlanet._rover._healthBar.loseHealth(
@@ -95,7 +99,7 @@ export default class Play extends Scene {
   _shieldSwapListener() {
     document.addEventListener("keydown", (e) => {
       this._redBigPlanet.shield._shieldSwapHandler(e);
-      this._blueBigPlanet.shield._shieldSwapHandler(e);
+      // this._blueBigPlanet.shield._shieldSwapHandler(e); <--- debugging only!
     });
   }
   _createBackground() {
