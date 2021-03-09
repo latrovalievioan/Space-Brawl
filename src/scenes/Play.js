@@ -36,7 +36,8 @@ export default class Play extends Scene {
     this._randomizeBotShield();
   }
   _randomizeBotShield() {
-    if (Math.floor(random(0, 70)) === 0) this._bot.shield._swapShield();
+    if (this._bot.shield._tl && this._bot.shield._tl.isActive()) return;
+    else if (Math.floor(random(0, 70)) === 0) this._bot.shield._swapShield();
   }
   _roverCollisionDetection(body) {
     if (detectCollision(body, this._targetPlanet._rover)) {
