@@ -11,65 +11,91 @@ export default class Play extends Scene {
   async onCreated() {
     // Assets.sounds.battleMusic.play();
     this._createBackground();
-    this._players = [];
     this._createPlanets();
     this._shieldSwapListener();
-    this._currentTurn = this._players[1];
-    this._targetPlanet = this._players[0];
+    this._currentTurn = this._redBigPlanet;
+    this._targetPlanet = this._blueBigPlanet;
     this._player = this._redBigPlanet;
     this._turn(this._currentTurn);
-  }
-
-  async _shootHandler({ key }) {
-    if (key === " ") {
-      await this._shootRocket(this._player._rocketConfig);
-      this.removeChild(this._rocket);
-      this._currentTurn =
-        this._currentTurn === this._blueBigPlanet
-          ? this._redBigPlanet
-          : this._blueBigPlanet;
-      this._turn(this._currentTurn);
-    } else {
-      document.addEventListener("keydown", (e) => this._shootHandler(e), {
-        once: true,
-      });
-    }
   }
 
   async _turn(player) {
     if (player !== this._player) {
       await this._shootRocket(player._rocketConfig);
-      this.removeChild(this._rocket);
-      this._currentTurn =
-        this._currentTurn === this._blueBigPlanet
-          ? this._redBigPlanet
-          : this._blueBigPlanet;
-      this._turn(this._currentTurn);
-    } else {
+    } else if (player === this._player) {
       document.addEventListener("keydown", (e) => this._shootHandler(e), {
         once: true,
       });
     }
   }
 
+  _onAnimationUpdate(body) {
+    this._roverCollisionDetection(body);
+    this._shieldCollisionDetection(body);
+  }
+
+  _roverCollisionDetection(body) {
+    if (detectCollision(body, this._targetPlanet._rover)) {
+      this._targetPlanet._rover._healthBar.loseHealth(
+        config.planets[this._targetPlanet.name]
+      );
+      this._changeTurn();
+      this._clearAnimation();
+      this._turn(this._currentTurn);
+    }
+  }
+
+  _shieldCollisionDetection(body) {
+    this._targetPlanet.shield.hitBoxRectangles.forEach((rectangle) => {
+      if (detectCollision(body, rectangle)) {
+        this._clearAnimation();
+        const shootFrom = this._targetPlanet;
+        this._changeTarget();
+        this._shootRocket(shootFrom._rocketConfig);
+      }
+    });
+  }
+
+  _changeTarget() {
+    this._targetPlanet =
+      this._targetPlanet === this._redBigPlanet
+        ? this._blueBigPlanet
+        : this._redBigPlanet;
+  }
+  _changeTurn() {
+    this._currentTurn =
+      this._currentTurn === this._redBigPlanet
+        ? this._blueBigPlanet
+        : this._redBigPlanet;
+    if (this._targetPlanet === this._currentTurn) {
+      this._changeTarget();
+    }
+  }
+
+  _clearAnimation() {
+    this._rocket._tl.clear();
+    this.removeChild(this._rocket);
+  }
+
+  async _shootHandler({ key }) {
+    if (key === " ") {
+      await this._shootRocket(this._player._rocketConfig);
+    } else {
+      document.addEventListener("keydown", (e) => this._shootHandler(e), {
+        once: true,
+      });
+    }
+  }
   _shootRocket(config) {
     this._rocket = new Rocket(config);
     this.addChild(this._rocket);
     return this._rocket.animateRocket((body) => this._onAnimationUpdate(body));
   }
 
-  _onAnimationUpdate(body) {
-    if (detectCollision(body, this._targetPlanet._rover)) {
-      this.removeChild(this._rocket);
-      this._blueBigPlanet._rover._healthBar.loseHealth(
-        config.planets[this._targetPlanet.name]
-      );
-    }
-  }
-
   _shieldSwapListener() {
     document.addEventListener("keydown", (e) => {
       this._redBigPlanet.shield._shieldSwapHandler(e);
+      this._blueBigPlanet.shield._shieldSwapHandler(e);
     });
   }
   _createBackground() {
@@ -82,10 +108,8 @@ export default class Play extends Scene {
   _createPlanets() {
     this._blueBigPlanet = new Planet(config.planets.blueBig, "blueBig");
     this.addChild(this._blueBigPlanet);
-    this._players.push(this._blueBigPlanet);
     this._redBigPlanet = new Planet(config.planets.redBig, "redBig");
     this.addChild(this._redBigPlanet);
-    this._players.push(this._redBigPlanet);
     this.addChild(new Planet(config.planets.smallBlue, "blueSmall"));
     this.addChild(new Planet(config.planets.smallRed, "redSmall"));
   }
