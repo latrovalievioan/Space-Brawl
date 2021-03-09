@@ -3,10 +3,7 @@ import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
 
 export default class Shield extends Container {
-  constructor(
-    { activePart, inactivePart, upperPart, lowerPart, hitBox },
-    player
-  ) {
+  constructor({ activePart, inactivePart, upperPart, lowerPart, hitBox }) {
     super();
     this._upperPartConfig = upperPart;
     this._lowerPartConfig = lowerPart;

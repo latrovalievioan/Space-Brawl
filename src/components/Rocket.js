@@ -24,18 +24,17 @@ export default class Rocket extends Container {
     this.addChild(this._body);
   }
 
-  animateRocket() {
+  animateRocket(onAnimationUpdate) {
     this._tl = gsap.timeline();
     this._tl.to(this._body, {
       motionPath: {
         path: this._path[0],
         align: this._body,
-        // autoRotate: 20,
       },
       duration: 2,
       ease: "none",
+      onUpdate: () => onAnimationUpdate(this._body),
     });
-
     return this._tl.play();
   }
 }
