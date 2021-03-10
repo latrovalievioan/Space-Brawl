@@ -3,6 +3,8 @@ import Play from "./scenes/Play";
 import Loading from "./scenes/Loading";
 import Tutorial from "./scenes/Tutorial";
 import { Container } from "pixi.js";
+import fire from "./static/fire.json";
+import Assets from "./core/AssetManager";
 
 /**
  * Main game stage, manages scenes/levels.
@@ -31,8 +33,10 @@ export default class Game extends Container {
     // await this.currentScene.finish;
     await this.switchScene(Loading, { scene: "loading" });
     await this.currentScene.finish;
+    await Assets.prepareSpritesheets([{ texture: "fire", data: fire }]);
+
     // this.switchScene(Tutorial, { scene: "tutorial" });
-    // this.switchScene(Play, { scene: "play" });
+    this.switchScene(Play, { scene: "play" });
   }
 
   /**

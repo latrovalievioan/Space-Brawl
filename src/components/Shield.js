@@ -36,8 +36,6 @@ export default class Shield extends Container {
     }
   }
   _swapShield() {
-    this._swapHitBoxes();
-
     const active = this._activePart;
     const inactive = this._inactivePart;
     this._tl = gsap.timeline();
@@ -47,6 +45,7 @@ export default class Shield extends Container {
         y: inactive.y,
         angle: inactive.angle - 90,
         duration: 0.3,
+        onComplete: this._swapHitBoxes(),
       })
       .to(
         inactive,

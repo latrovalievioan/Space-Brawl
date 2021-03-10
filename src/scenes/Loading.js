@@ -87,6 +87,7 @@ export default class Loading extends Scene {
       defaultKey: Assets.images["key-default"],
       longKey: Assets.images["key-long"],
       healthMeter: Assets.images.healthMeter,
+      fire: Assets.images.fire,
     };
     const sounds = {
       battleMusic: Assets.sounds.fight,

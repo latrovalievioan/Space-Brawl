@@ -65,6 +65,12 @@ export default {
           y: -65,
           angle: 100,
         },
+        flame: {
+          scale: 0.23,
+          x: 4,
+          y: 65,
+          angle: -95,
+        },
         paths: [
           ["M0.5 1L1093 165.5", "side", 1.4],
           [
@@ -206,6 +212,12 @@ export default {
           x: 410,
           y: 80,
           angle: -70,
+        },
+        flame: {
+          scale: 0.23,
+          x: 4,
+          y: 65,
+          angle: -95,
         },
         paths: [
           ["M1093,165.5 L0.5,1", "side", 1.4],
