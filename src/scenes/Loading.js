@@ -24,10 +24,8 @@ export default class Loading extends Scene {
   }
 
   _createLogo() {
-    this._logo = new Sprite.from(Assets.images.logo);
+    this._logo = new Sprite.from(Assets.images.ooo);
     this._logo.anchor.set(0.5);
-    this._logo.scale.x = this._config.logoScale;
-    this._logo.scale.y = this._config.logoScale;
     this.addChild(this._logo);
   }
 
