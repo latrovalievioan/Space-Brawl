@@ -1,9 +1,9 @@
 import gsap from "gsap/gsap-core";
 import { Container, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
+import { random } from "../core/utils";
 import MotionPathPlugin from "../../node_modules/gsap/MotionPathPlugin";
 gsap.registerPlugin(MotionPathPlugin);
-import { random } from "../core/utils";
 
 export default class Rocket extends Container {
   constructor({ body, flame, paths, returnPaths }) {
@@ -26,15 +26,24 @@ export default class Rocket extends Container {
 
   animateRocket(onAnimationUpdate) {
     this._tl = gsap.timeline();
+
+    // gsap.set(this._body, {
+    //   // xPercent: -50,
+    //   // yPercent: -50,
+    //   transformOrigin: "50% 50%",
+    // });
+
     this._tl.to(this._body, {
       motionPath: {
         path: this._path[0],
         align: this._body,
+        // autoRotate: true,
       },
       duration: 2,
       ease: "none",
       onUpdate: () => onAnimationUpdate(this._body),
     });
+
     return this._tl.play();
   }
 }

@@ -1,4 +1,4 @@
-import { Container, Sprite } from "pixi.js";
+import { Container, Sprite, filters } from "pixi.js";
 import { scaleXY } from "../core/utils";
 import gsap from "gsap/all";
 
