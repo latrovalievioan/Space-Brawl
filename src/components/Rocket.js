@@ -6,11 +6,11 @@ import MotionPathPlugin from "../../node_modules/gsap/MotionPathPlugin";
 gsap.registerPlugin(MotionPathPlugin);
 
 export default class Rocket extends Container {
-  constructor({ body, flame, paths, returnPaths }) {
+  constructor({ body, flame, paths }) {
     super();
     this._bodyConfig = body;
     this._flameConfig = flame;
-    this._returnPaths = returnPaths;
+    this._paths = paths; // <- debugging only
     this._path = paths[Math.floor(random(0, paths.length))];
     this._createBody(this._bodyConfig);
   }
@@ -26,18 +26,13 @@ export default class Rocket extends Container {
 
   animateRocket(onAnimationUpdate) {
     this._tl = gsap.timeline();
-
-    // gsap.set(this._body, {
-    //   // xPercent: -50,
-    //   // yPercent: -50,
-    //   transformOrigin: "50% 50%",
-    // });
-
     this._tl.to(this._body, {
       motionPath: {
+        // path: this._paths[0][0], <- debugging only
         path: this._path[0],
         align: this._body,
-        // autoRotate: true,
+        autoRotate: 1.7,
+        useRadians: true,
       },
       duration: 2,
       ease: "none",

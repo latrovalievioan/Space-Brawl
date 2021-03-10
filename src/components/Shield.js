@@ -46,6 +46,7 @@ export default class Shield extends Container {
         x: inactive.x,
         y: inactive.y,
         angle: inactive.angle - 90,
+        duration: 0.3,
       })
       .to(
         inactive,
@@ -53,6 +54,7 @@ export default class Shield extends Container {
           x: active.x,
           y: active.y,
           angle: active.angle + 90,
+          duration: 0.3,
         },
         "<"
       );
