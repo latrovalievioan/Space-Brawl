@@ -10,8 +10,8 @@ export default class Rocket extends Container {
     super();
     this._bodyConfig = body;
     this._flameConfig = flame;
-    this._paths = paths; // <- debugging only
     this._path = paths[Math.floor(random(0, paths.length))];
+    // this._path = paths[7]; // debugging only
     this._createBody(this._bodyConfig);
   }
   _createBody({ image, scale = 1, x = 0, y = 0, angle = 0 }) {
@@ -28,13 +28,12 @@ export default class Rocket extends Container {
     this._tl = gsap.timeline();
     this._tl.to(this._body, {
       motionPath: {
-        // path: this._paths[0][0], <- debugging only
         path: this._path[0],
         align: this._body,
         autoRotate: 1.7,
         useRadians: true,
       },
-      duration: 2,
+      duration: this._path[2],
       ease: "none",
       onUpdate: () => onAnimationUpdate(this._body),
     });
