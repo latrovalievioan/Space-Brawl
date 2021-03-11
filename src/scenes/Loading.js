@@ -88,10 +88,20 @@ export default class Loading extends Scene {
       longKey: Assets.images["key-long"],
       healthMeter: Assets.images.healthMeter,
       fire: Assets.images.fire,
+      redWins: Assets.images.redWins,
+      blueWins: Assets.images.blueWins,
+      replayButton: Assets.images.replayButton,
+      countdownCircle: Assets.images.countdownCircle,
+      countdownFill: Assets.images.countdownFill,
+      one: Assets.images["1"],
+      two: Assets.images["2"],
+      tree: Assets.images["3"],
     };
     const sounds = {
       battleMusic: Assets.sounds.fight,
       shield: Assets.sounds.shield,
+      beep: Assets.sounds.beep,
+      ambience: Assets.sounds.ambience,
     };
 
     return super.preload({ images, sounds });

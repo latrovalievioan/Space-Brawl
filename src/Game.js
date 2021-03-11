@@ -1,7 +1,9 @@
 import Splash from "./scenes/Splash";
 import Play from "./scenes/Play";
+import Win from "./scenes/Win";
 import Loading from "./scenes/Loading";
 import Tutorial from "./scenes/Tutorial";
+import Countdown from "./scenes/Countdown";
 import { Container } from "pixi.js";
 import fire from "./static/fire.json";
 import Assets from "./core/AssetManager";
@@ -34,9 +36,23 @@ export default class Game extends Container {
     await this.switchScene(Loading, { scene: "loading" });
     await this.currentScene.finish;
     await Assets.prepareSpritesheets([{ texture: "fire", data: fire }]);
+    await this.switchScene(Countdown, { scene: "cd" });
+    await this.currentScene.finish;
 
     // this.switchScene(Tutorial, { scene: "tutorial" });
     this.switchScene(Play, { scene: "play" });
+
+    // this.setupSceneTransition();
+  }
+
+  setupSceneTransition() {
+    this.currentScene.once(Play.events.GAME_OVER, () => {
+      this.switchScene(Win, { scene: "win" });
+      this.currentScene.once(Win.events.REPLAY, () => {
+        this.switchScene(Play, { scene: "play" });
+        this.setupSceneTransition();
+      });
+    });
   }
 
   /**

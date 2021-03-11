@@ -46,6 +46,9 @@ export default {
       backgroundBlur: 20,
       keyImageScale: 0.7,
     },
+    Win: {
+      backgroundBlur: 20,
+    },
   },
   assets: {
     root: "/",
@@ -138,7 +141,7 @@ export default {
           x: 52,
           y: 358,
           angle: 180,
-          damage: 10,
+          damage: 100,
         },
         health: {
           fullHealth: 100,

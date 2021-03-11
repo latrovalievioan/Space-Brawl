@@ -8,6 +8,12 @@ import Rocket from "../components/Rocket";
 import { random, detectCollision } from "../core/utils";
 
 export default class Play extends Scene {
+  static get events() {
+    return {
+      GAME_OVER: "game_over",
+    };
+  }
+
   async onCreated() {
     // Assets.sounds.battleMusic.play();
     this._createBackground();
@@ -37,16 +43,24 @@ export default class Play extends Scene {
   }
   _randomizeBotShield() {
     if (this._bot.shield._tl && this._bot.shield._tl.isActive()) return;
-    else if (Math.floor(random(0, 70)) === 0) this._bot.shield._swapShield();
+    else if (Math.floor(random(0, 100)) === 0) this._bot.shield._swapShield();
   }
   _roverCollisionDetection(body) {
     if (detectCollision(body, this._targetPlanet._rover)) {
       this._targetPlanet._rover._healthBar.loseHealth(
         config.planets[this._targetPlanet.name]
       );
+      this._checkHealth();
       this._changeTurn();
       this._clearAnimation();
       this._turn(this._currentTurn);
+    }
+  }
+
+  _checkHealth() {
+    if (this._targetPlanet._rover._healthBar._currentHealth === 0) {
+      localStorage.setItem("loser", this._targetPlanet.name);
+      this.emit(Play.events.GAME_OVER);
     }
   }
 
