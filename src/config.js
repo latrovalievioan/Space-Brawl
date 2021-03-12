@@ -59,7 +59,7 @@ export default {
       scale: 1,
       x: -729,
       y: -385,
-      damage: 10,
+      damage: 100,
       rocket: {
         body: {
           image: "rocket",
@@ -207,7 +207,7 @@ export default {
       scale: 1,
       x: 508,
       y: 521,
-      damage: 10,
+      damage: 100,
       rocket: {
         body: {
           image: "rocket",

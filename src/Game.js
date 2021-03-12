@@ -1,4 +1,3 @@
-import Splash from "./scenes/Splash";
 import Play from "./scenes/Play";
 import Win from "./scenes/Win";
 import Loading from "./scenes/Loading";
@@ -31,16 +30,15 @@ export default class Game extends Container {
   }
 
   async start() {
-    // await this.switchScene(Splash, { scene: "splash" });
-    // await this.currentScene.finish;
     await this.switchScene(Loading, { scene: "loading" });
     await this.currentScene.finish;
-    await Assets.prepareSpritesheets([{ texture: "fire", data: fire }]);
-    await this.switchScene(Countdown, { scene: "cd" });
-    await this.currentScene.finish;
+    // await Assets.prepareSpritesheets([{ texture: "fire", data: fire }]);
+    this.switchScene(Tutorial, { scene: "tutorial" });
 
-    // this.switchScene(Tutorial, { scene: "tutorial" });
-    this.switchScene(Play, { scene: "play" });
+    // await this.switchScene(Countdown, { scene: "cd" });
+    // await this.currentScene.finish;
+
+    // this.switchScene(Play, { scene: "play" });
 
     // this.setupSceneTransition();
   }
