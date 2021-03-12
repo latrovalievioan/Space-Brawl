@@ -96,6 +96,15 @@ export default class Loading extends Scene {
       one: Assets.images["1"],
       two: Assets.images["2"],
       tree: Assets.images["3"],
+      gameInstructions: Assets.images.gameInstructions,
+      title: Assets.images.title,
+      nextButton: Assets.images.nextButton,
+      arrowInstructions: Assets.images.arrowInstructions,
+      upArrow: Assets.images.upArrow,
+      downArrow: Assets.images.downArrow,
+      longButton: Assets.images["key-long"],
+      spacebarInstructions: Assets.images.spacebarInstructions,
+      playButton: Assets.images.playButton,
     };
     const sounds = {
       battleMusic: Assets.sounds.fight,

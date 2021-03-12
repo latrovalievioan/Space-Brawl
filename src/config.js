@@ -20,9 +20,6 @@ export default {
     wheel: false,
   },
   scenes: {
-    Splash: {
-      hideDelay: 0,
-    },
     Loading: {
       hideDelay: 0,
       backgroundBlur: 20,
@@ -44,7 +41,29 @@ export default {
     },
     Tutorial: {
       backgroundBlur: 20,
-      keyImageScale: 0.7,
+      title: {
+        y: -300,
+        scale: 0.6,
+      },
+      button: {
+        y: 300,
+      },
+      arrowInstructions: {
+        y: 130,
+        x: 0,
+      },
+      arrows: {
+        up: {
+          x: -140,
+          y: -30,
+          scale: 0.2,
+        },
+        down: {
+          x: 140,
+          y: -30,
+          scale: 0.2,
+        },
+      },
     },
     Win: {
       backgroundBlur: 20,

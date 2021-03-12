@@ -98,7 +98,7 @@ export default class Shield extends Container {
     this.rectangle1.x = rect1.x;
     this.rectangle1.y = rect1.y;
     this.rectangle1.angle = rect1.angle;
-    // this.rectangle1.alpha = 0;
+    this.rectangle1.alpha = 0;
     this.addChild(this.rectangle1);
     this.hitBoxRectangles.push(this.rectangle1);
     this.rectangle2 = PIXI.Sprite.from(PIXI.Texture.WHITE);
@@ -109,7 +109,7 @@ export default class Shield extends Container {
     this.rectangle2.x = rect2.x;
     this.rectangle2.y = rect2.y;
     this.rectangle2.angle = rect2.angle;
-    // this.rectangle2.alpha = 0;
+    this.rectangle2.alpha = 0;
     this.addChild(this.rectangle2);
     this.hitBoxRectangles.push(this.rectangle2);
   }
