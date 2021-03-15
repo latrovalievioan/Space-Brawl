@@ -108,7 +108,18 @@ export default class Play extends Scene {
   _shootRocket(config) {
     this._rocket = new Rocket(config);
     this.addChild(this._rocket);
-    return this._rocket.animateRocket((body) => this._onAnimationUpdate(body));
+
+    ///////
+    const { x, y } = this._targetPlanet._rover._body.toLocal(
+      this._targetPlanet._rover,
+      this
+    );
+
+    /////////
+    return this._rocket.animateRocket(
+      (body) => this._onAnimationUpdate(body),
+      this._targetPlanet
+    );
   }
 
   _shieldSwapListener() {

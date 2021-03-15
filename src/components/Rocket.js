@@ -9,6 +9,7 @@ gsap.registerPlugin(MotionPathPlugin);
 export default class Rocket extends Container {
   constructor({ body, flame, paths }) {
     super();
+    this._tl = gsap.timeline();
     this._bodyConfig = body;
     this._flameConfig = flame;
     this._path = paths[Math.floor(random(0, paths.length))];
@@ -35,16 +36,22 @@ export default class Rocket extends Container {
     this._body.addChild(this._fire);
   }
 
-  animateRocket(onAnimationUpdate) {
-    this._tl = gsap.timeline();
+  animateRocket(onAnimationUpdate, targetPlanet) {
+    let point = new PIXI.Point(0, 0);
+    point = targetPlanet._rover._body.toLocal(point, this);
+    if (targetPlanet.name === "redBig") {
+      point.x = -point.x;
+      point.y = -point.y;
+    }
+
     this._tl.to(this._body, {
       motionPath: {
-        path: this._path[0],
+        path: [{ x: point.x, y: point.y }],
         align: this._body,
         autoRotate: 1.7,
         useRadians: true,
       },
-      duration: this._path[2],
+      duration: 1,
       ease: "none",
       onUpdate: () => onAnimationUpdate(this._body),
     });
