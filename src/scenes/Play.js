@@ -1,4 +1,4 @@
-import { Rectangle, Sprite } from "pixi.js";
+import { Rectangle, Sprite, Text } from "pixi.js";
 import Scene from "./Scene";
 import config from "../config";
 import Planet from "../components/Planet";
@@ -28,7 +28,9 @@ export default class Play extends Scene {
 
   async _turn(player) {
     if (player !== this._player) {
-      await this._shootRocket(player._rocketConfig);
+      setTimeout(async () => {
+        await this._shootRocket(player._rocketConfig);
+      }, 1000);
     } else if (player === this._player) {
       document.addEventListener("keydown", (e) => this._shootHandler(e), {
         once: true,
@@ -65,14 +67,30 @@ export default class Play extends Scene {
   }
 
   _shieldCollisionDetection(body) {
-    this._targetPlanet.shield.hitBoxRectangles.forEach((rectangle) => {
+    this._targetPlanet.shield.hitBoxRectangles.forEach(async (rectangle) => {
       if (detectCollision(body, rectangle)) {
-        this._clearAnimation();
-        const shootFrom = this._targetPlanet;
-        this._changeTarget();
-        this._shootRocket(shootFrom._rocketConfig);
+        this._shieldCollisionHandler();
       }
     });
+  }
+
+  _shieldCollisionHandler() {
+    const x = this._rocket._body.x;
+    const y = this._rocket._body.y;
+    const angle = this._rocket._body.angle;
+    this._clearAnimation();
+    const shootFrom = this._targetPlanet;
+    this._changeTarget();
+    const config = {
+      body: {
+        image: "rocket",
+        x,
+        y,
+        angle,
+      },
+      flame: shootFrom._rocketConfig.flame,
+    };
+    this._shootRocket(config);
   }
 
   _changeTarget() {
@@ -108,14 +126,6 @@ export default class Play extends Scene {
   _shootRocket(config) {
     this._rocket = new Rocket(config);
     this.addChild(this._rocket);
-
-    ///////
-    const { x, y } = this._targetPlanet._rover._body.toLocal(
-      this._targetPlanet._rover,
-      this
-    );
-
-    /////////
     return this._rocket.animateRocket(
       (body) => this._onAnimationUpdate(body),
       this._targetPlanet
