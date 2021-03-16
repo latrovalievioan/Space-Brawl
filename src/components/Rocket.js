@@ -34,6 +34,20 @@ export default class Rocket extends Container {
     this._body.addChild(this._fire);
   }
 
+  generatePoint1(x, y) {
+    return {
+      x: Math.round(random(this._body.x, x / 2)),
+      y: Math.round(random(this._body.y - 600, 600)),
+    };
+  }
+
+  generatePoint2(x, y) {
+    return {
+      x: Math.round(random(this._body.x + x, x)),
+      y: Math.round(random(this._body.y, y)),
+    };
+  }
+
   animateRocket(onAnimationUpdate, targetPlanet) {
     let targetPoint = new PIXI.Point(0, 0);
     targetPoint = targetPlanet._rover._body.toLocal(targetPoint, this);
@@ -44,12 +58,16 @@ export default class Rocket extends Container {
 
     this._tl.to(this._body, {
       motionPath: {
-        path: [{ x: targetPoint.x, y: targetPoint.y }],
+        path: [
+          this.generatePoint1(targetPoint.x, targetPoint.y),
+          this.generatePoint2(targetPoint.x, targetPoint.y),
+          { x: targetPoint.x, y: targetPoint.y },
+        ],
         align: this._body,
         autoRotate: 1.7,
         useRadians: true,
       },
-      duration: 1,
+      duration: 2,
       ease: "none",
       onUpdate: () => onAnimationUpdate(this._body),
     });
