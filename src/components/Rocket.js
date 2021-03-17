@@ -15,6 +15,7 @@ export default class Rocket extends Container {
     this._createBody(this._bodyConfig);
     this._createFire(this._flameConfig);
     this.sortableChildren = true;
+    this._createHitBox();
   }
   _createBody({ image, scale = 1, x = 0, y = 0, angle = 0 }) {
     this._body = new Sprite.from(image);
@@ -46,6 +47,18 @@ export default class Rocket extends Container {
       x: Math.round(random(this._body.x + x, x)),
       y: Math.round(random(this._body.y, y)),
     };
+  }
+
+  _createHitBox() {
+    this.hitBox = PIXI.Sprite.from(PIXI.Texture.WHITE);
+    this.hitBox.width = 20;
+    this.hitBox.height = 30;
+    this.hitBox.tint = 0x000000;
+    this.hitBox.anchor.set(0.5);
+    this.hitBox.x = 0;
+    this.hitBox.y = -3;
+    this.hitBox.alpha = 0;
+    this._body.addChild(this.hitBox);
   }
 
   animateRocket(onAnimationUpdate, targetPlanet) {

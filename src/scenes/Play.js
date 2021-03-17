@@ -48,7 +48,7 @@ export default class Play extends Scene {
     else if (Math.floor(random(0, 100)) === 0) this._bot.shield._swapShield();
   }
   _roverCollisionDetection(body) {
-    if (detectCollision(body, this._targetPlanet._rover)) {
+    if (detectCollision(body.children[1], this._targetPlanet._rover)) {
       this._targetPlanet._rover._healthBar.loseHealth(
         config.planets[this._targetPlanet.name]
       );
@@ -67,8 +67,9 @@ export default class Play extends Scene {
   }
 
   _shieldCollisionDetection(body) {
+    console.log(body.children[1]);
     this._targetPlanet.shield.hitBoxRectangles.forEach(async (rectangle) => {
-      if (detectCollision(body, rectangle)) {
+      if (detectCollision(body.children[1], rectangle)) {
         this._shieldCollisionHandler();
       }
     });
