@@ -24,6 +24,7 @@ export default class Play extends Scene {
     this._player = this._redBigPlanet;
     this._bot = this._blueBigPlanet;
     this._turn(this._currentTurn);
+    this.drawRect();
   }
 
   async _turn(player) {
@@ -152,6 +153,27 @@ export default class Play extends Scene {
     this.addChild(this._redBigPlanet);
     this.addChild(new Planet(config.planets.smallBlue, "blueSmall"));
     this.addChild(new Planet(config.planets.smallRed, "redSmall"));
+  }
+
+  drawRect() {
+    let targetPoint = new PIXI.Point(0, 0);
+    targetPoint = this._blueBigPlanet.shield._activePart.toLocal(
+      targetPoint,
+      this
+    );
+    // if (this._redBigPlanet.name === "redBig") {
+    //   targetPoint.x = -targetPoint.x;
+    //   targetPoint.y = -targetPoint.y;
+    // }
+
+    this.rectangle = PIXI.Sprite.from(PIXI.Texture.WHITE);
+    this.rectangle.width = 10;
+    this.rectangle.height = 10;
+    this.rectangle.tint = 0x000000;
+    this.rectangle.anchor.set(0.5);
+    this.rectangle.x = targetPoint.x;
+    this.rectangle.y = targetPoint.y;
+    this.addChild(this.rectangle);
   }
 
   /**
