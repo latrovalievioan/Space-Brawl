@@ -15,7 +15,6 @@ export default class Play extends Scene {
   }
 
   async onCreated() {
-    // Assets.sounds.battleMusic.play();
     this._createBackground();
     this._createPlanets();
     this._shieldSwapListener();
@@ -29,7 +28,7 @@ export default class Play extends Scene {
   async _turn(player) {
     if (player !== this._player) {
       setTimeout(async () => {
-        await this._shootRocket(player._rocketConfig);
+        await this._shootRocket(player._rocketConfig, true);
       }, 1000);
     } else if (player === this._player) {
       document.addEventListener("keydown", (e) => this._shootHandler(e), {
@@ -38,6 +37,10 @@ export default class Play extends Scene {
     }
   }
 
+  _stopRocketSound() {
+    Assets.sounds.shootRight.stop();
+    Assets.sounds.shootLeft.stop();
+  }
   _onAnimationUpdate(body) {
     this._roverCollisionDetection(body);
     this._shieldCollisionDetection(body);
@@ -49,6 +52,8 @@ export default class Play extends Scene {
   }
   _roverCollisionDetection(body) {
     if (detectCollision(body.children[1], this._targetPlanet._rover)) {
+      this._stopRocketSound();
+      this._explosionSound();
       this._targetPlanet._rover._healthBar.loseHealth(
         config.planets[this._targetPlanet.name]
       );
@@ -117,14 +122,37 @@ export default class Play extends Scene {
 
   async _shootHandler({ key }) {
     if (key === " ") {
-      await this._shootRocket(this._player._rocketConfig);
+      await this._shootRocket(this._player._rocketConfig, true);
     } else {
       document.addEventListener("keydown", (e) => this._shootHandler(e), {
         once: true,
       });
     }
   }
-  _shootRocket(config) {
+
+  _shootSound() {
+    if (this._targetPlanet.name === "blueBig") {
+      Assets.sounds.shootLeft.stop();
+      Assets.sounds.shootRight.play();
+    } else if (this._targetPlanet.name === "redBig") {
+      Assets.sounds.shootRight.stop();
+      Assets.sounds.shootLeft.play();
+    }
+  }
+
+  _explosionSound() {
+    if (this._targetPlanet.name === "blueBig") {
+      Assets.sounds.explosionL.play();
+    } else if (this._targetPlanet.name === "redBig") {
+      Assets.sounds.explosionR.play();
+    }
+  }
+
+  _shootRocket(config, fromRover = false) {
+    if (fromRover) {
+      this._shootSound();
+    }
+
     this._rocket = new Rocket(config);
     this.addChild(this._rocket);
     return this._rocket.animateRocket(

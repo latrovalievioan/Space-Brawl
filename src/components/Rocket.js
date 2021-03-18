@@ -5,6 +5,7 @@ import { random } from "../core/utils";
 import Fire from "./Fire";
 import MotionPathPlugin from "../../node_modules/gsap/MotionPathPlugin";
 gsap.registerPlugin(MotionPathPlugin);
+import Assets from "../core/AssetManager";
 
 export default class Rocket extends Container {
   constructor({ body, flame }) {

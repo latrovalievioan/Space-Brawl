@@ -107,10 +107,14 @@ export default class Loading extends Scene {
       playButton: Assets.images.playButton,
     };
     const sounds = {
-      battleMusic: Assets.sounds.fight,
+      fight: Assets.sounds.fight,
       shield: Assets.sounds.shield,
       beep: Assets.sounds.beep,
       ambience: Assets.sounds.ambience,
+      shootRight: Assets.sounds.shootRocketRight,
+      shootLeft: Assets.sounds.shootRocketLeft,
+      explosionL: Assets.sounds.explosionL,
+      explosionR: Assets.sounds.explosionR,
     };
 
     return super.preload({ images, sounds });
