@@ -43,10 +43,10 @@ export default class Tutorial extends Scene {
   }
 
   _createGameInstructions() {
-    this._gameIntructions = new Sprite.from("gameInstructions");
-    this._gameIntructions.anchor.set(0.5);
-    this._gameIntructions.x = -2000;
-    this.addChild(this._gameIntructions);
+    this._gameInstructions = new Sprite.from("gameInstructions");
+    this._gameInstructions.anchor.set(0.5);
+    this._gameInstructions.alpha = 0;
+    this.addChild(this._gameInstructions);
   }
 
   _createTitle({ y, scale }) {
@@ -92,7 +92,8 @@ export default class Tutorial extends Scene {
     const instructions = this._arrowInstructions;
     instructions.anchor.set(0.5);
     instructions.y = y;
-    instructions.x = -window.innerWidth;
+    instructions.x = this._arrowInstructions.x;
+    instructions.alpha = 0;
     this.addChild(instructions);
   }
 
@@ -134,7 +135,7 @@ export default class Tutorial extends Scene {
     const tl = this._timeline;
     const title = this._title;
     const next = this._nextButton;
-    const gameInstructions = this._gameIntructions;
+    const gameInstructions = this._gameInstructions;
 
     tl.to(title, {
       y: titleConfig.y,
@@ -144,9 +145,8 @@ export default class Tutorial extends Scene {
       .to(
         gameInstructions,
         {
-          x: 0,
-          ease: "bounce",
           duration: 2,
+          alpha: 1,
         },
         "<"
       )
@@ -161,25 +161,21 @@ export default class Tutorial extends Scene {
       );
   }
   _animateButtonInstructions({
-    arrowInstructions: arrowInstructionsConfig,
     arrows: { up: upArrowConfig, down: downArrowConfig },
   }) {
     const tl = this._timeline;
-    const gameInstructions = this._gameIntructions;
+    const gameInstructions = this._gameInstructions;
     const arrowInstructions = this._arrowInstructions;
     const upArrow = this._upArrow;
     const downArrow = this._downArrow;
     tl.to(gameInstructions, {
-      x: window.innerWidth,
       alpha: 0,
       duration: 1.4,
-      ease: "Elastic.easeIn",
     })
       .to(
         arrowInstructions,
         {
-          x: arrowInstructionsConfig.x,
-          ease: "bounce",
+          alpha: 1,
           duration: 2,
         },
         "-=0.5"
@@ -214,45 +210,37 @@ export default class Tutorial extends Scene {
     const next = this._nextButton;
     const playButton = this._playButton;
     tl.to(arrowInstructions, {
-      x: window.innerWidth,
       alpha: 0,
       duration: 1.4,
-      ease: "Elastic.easeIn",
     })
       .to(
         next,
         {
-          x: -window.innerWidth,
           alpha: 0,
-          duration: 1.4,
-          ease: "Elastic.easeIn",
+          duration: 0.7,
         },
         "<"
       )
       .to(
         upArrow,
         {
-          x: window.innerWidth,
           alpha: 0,
-          duration: 1.4,
-          ease: "Elastic.easeIn",
+          duration: 0.7,
         },
         "-=0.5"
       )
       .to(
         downArrow,
         {
-          x: -window.innerWidth,
           alpha: 0,
-          duration: 1.4,
-          ease: "Elastic.easeIn",
+          duration: 0.7,
         },
         "<"
       )
       .to(instructions, {
         x: instructionsConfig.x,
         ease: "bounce",
-        duration: 2,
+        duration: 1,
       })
       .to(
         spacebarButton,

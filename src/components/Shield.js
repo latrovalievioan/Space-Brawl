@@ -31,7 +31,6 @@ export default class Shield extends Container {
       (key === "ArrowDown" && this._activePart.x === this._upperPartConfig.x) ||
       (key === "ArrowUp" && this._activePart.x === this._lowerPartConfig.x)
     ) {
-      Assets.sounds.shield.play();
       this._swapShield();
     }
   }

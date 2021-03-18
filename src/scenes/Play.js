@@ -6,6 +6,7 @@ import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
 import Rocket from "../components/Rocket";
 import { random, detectCollision } from "../core/utils";
+import Explosion from "../components/Explosion";
 
 export default class Play extends Scene {
   static get events() {
@@ -23,6 +24,14 @@ export default class Play extends Scene {
     this._player = this._redBigPlanet;
     this._bot = this._blueBigPlanet;
     this._turn(this._currentTurn);
+  }
+
+  _explode({ x, y }) {
+    this._explosion = new Explosion();
+    this._explosion.x = x;
+    this._explosion.y = y;
+    this.addChild(this._explosion);
+    setTimeout(() => this.removeChild(this._explosion), 1000);
   }
 
   async _turn(player) {
@@ -52,6 +61,7 @@ export default class Play extends Scene {
   }
   _roverCollisionDetection(body) {
     if (detectCollision(body.children[1], this._targetPlanet._rover)) {
+      this._explode(this._rocket._body);
       this._stopRocketSound();
       this._explosionSound();
       this._targetPlanet._rover._healthBar.loseHealth(
@@ -72,7 +82,6 @@ export default class Play extends Scene {
   }
 
   _shieldCollisionDetection(body) {
-    console.log(body.children[1]);
     this._targetPlanet.shield.hitBoxRectangles.forEach(async (rectangle) => {
       if (detectCollision(body.children[1], rectangle)) {
         this._shieldCollisionHandler();
@@ -81,6 +90,7 @@ export default class Play extends Scene {
   }
 
   _shieldCollisionHandler() {
+    this._bounceSound();
     const x = this._rocket._body.x;
     const y = this._rocket._body.y;
     const angle = this._rocket._body.angle;
@@ -137,6 +147,14 @@ export default class Play extends Scene {
     } else if (this._targetPlanet.name === "redBig") {
       Assets.sounds.shootRight.stop();
       Assets.sounds.shootLeft.play();
+    }
+  }
+
+  _bounceSound() {
+    if (this._targetPlanet.name === "blueBig") {
+      Assets.sounds.bounceL.play();
+    } else if (this._targetPlanet.name === "redBig") {
+      Assets.sounds.bounceR.play();
     }
   }
 

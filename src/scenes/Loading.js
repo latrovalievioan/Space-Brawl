@@ -88,6 +88,7 @@ export default class Loading extends Scene {
       longKey: Assets.images["key-long"],
       healthMeter: Assets.images.healthMeter,
       fire: Assets.images.fire,
+      explosion: Assets.images.explosion,
       redWins: Assets.images.redWins,
       blueWins: Assets.images.blueWins,
       replayButton: Assets.images.replayButton,
@@ -108,13 +109,13 @@ export default class Loading extends Scene {
     };
     const sounds = {
       fight: Assets.sounds.fight,
-      shield: Assets.sounds.shield,
       beep: Assets.sounds.beep,
-      ambience: Assets.sounds.ambience,
       shootRight: Assets.sounds.shootRocketRight,
       shootLeft: Assets.sounds.shootRocketLeft,
       explosionL: Assets.sounds.explosionL,
       explosionR: Assets.sounds.explosionR,
+      bounceR: Assets.sounds.bounceRight,
+      bounceL: Assets.sounds.bounceLeft,
     };
 
     return super.preload({ images, sounds });
