@@ -7,6 +7,7 @@ import Assets from "../core/AssetManager";
 import Rocket from "../components/Rocket";
 import { random, detectCollision } from "../core/utils";
 import Explosion from "../components/Explosion";
+import gsap from "gsap/all";
 
 export default class Play extends Scene {
   static get events() {
@@ -24,6 +25,16 @@ export default class Play extends Scene {
     this._player = this._redBigPlanet;
     this._bot = this._blueBigPlanet;
     this._turn(this._currentTurn);
+  }
+
+  _shake() {
+    gsap.to(this, {
+      y: 5,
+      repeat: 5,
+      yoyo: true,
+      ease: "none",
+      duration: 0.09,
+    });
   }
 
   _explode({ x, y }) {
@@ -62,6 +73,7 @@ export default class Play extends Scene {
   _roverCollisionDetection(body) {
     if (detectCollision(body.children[1], this._targetPlanet._rover)) {
       this._explode(this._rocket._body);
+      this._shake();
       this._stopRocketSound();
       this._explosionSound();
       this._targetPlanet._rover._healthBar.loseHealth(
