@@ -1,11 +1,9 @@
-import { Rectangle, Sprite } from "pixi.js";
+import { Sprite } from "pixi.js";
 import Scene from "./Scene";
 import config from "../config";
 import Planet from "../components/Planet";
 import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
-import Rocket from "../components/Rocket";
-import { random, detectCollision } from "../core/utils";
 import gsap from "gsap/all";
 
 export default class Play extends Scene {
