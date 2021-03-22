@@ -19,13 +19,13 @@ export default class Rocket extends Container {
     this._createHitBox();
   }
   _createBody({ image, scale = 1, x = 0, y = 0, angle = 0 }) {
-    this._body = new Sprite.from(image);
-    this._body.anchor.set(0.5);
-    scaleXY(this._body, scale);
-    this._body.x = x;
-    this._body.y = y;
-    this._body.angle = angle;
-    this.addChild(this._body);
+    this.body = new Sprite.from(image);
+    this.body.anchor.set(0.5);
+    scaleXY(this.body, scale);
+    this.body.x = x;
+    this.body.y = y;
+    this.body.angle = angle;
+    this.addChild(this.body);
   }
   _createFire({ scale, x, y, angle }) {
     this._fire = new Fire();
@@ -33,20 +33,20 @@ export default class Rocket extends Container {
     this._fire.x = x;
     this._fire.y = y;
     this._fire.angle = angle;
-    this._body.addChild(this._fire);
+    this.body.addChild(this._fire);
   }
 
   generatePoint1(x, y) {
     return {
-      x: Math.round(random(this._body.x, x / 2)),
-      y: Math.round(random(this._body.y - 600, 600)),
+      x: Math.round(random(this.body.x, x / 2)),
+      y: Math.round(random(this.body.y - 600, 600)),
     };
   }
 
   generatePoint2(x, y) {
     return {
-      x: Math.round(random(this._body.x + x, x)),
-      y: Math.round(random(this._body.y, y)),
+      x: Math.round(random(this.body.x + x, x)),
+      y: Math.round(random(this.body.y, y)),
     };
   }
 
@@ -59,7 +59,7 @@ export default class Rocket extends Container {
     this.hitBox.x = 0;
     this.hitBox.y = -3;
     this.hitBox.alpha = 0;
-    this._body.addChild(this.hitBox);
+    this.body.addChild(this.hitBox);
   }
 
   animateRocket(onAnimationUpdate, targetPlanet) {
@@ -70,20 +70,20 @@ export default class Rocket extends Container {
       targetPoint.y = -targetPoint.y;
     }
 
-    this._tl.to(this._body, {
+    this._tl.to(this.body, {
       motionPath: {
         path: [
           this.generatePoint1(targetPoint.x, targetPoint.y),
           this.generatePoint2(targetPoint.x, targetPoint.y),
           { x: targetPoint.x, y: targetPoint.y },
         ],
-        align: this._body,
+        align: this.body,
         autoRotate: 1.7,
         useRadians: true,
       },
       duration: 2,
       ease: "none",
-      onUpdate: () => onAnimationUpdate(this._body),
+      onUpdate: () => onAnimationUpdate(this),
     });
     return this._tl.play();
   }

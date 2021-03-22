@@ -62,9 +62,9 @@ export default class Play extends Scene {
     Assets.sounds.shootLeft.stop();
   }
 
-  _onAnimationUpdate(body) {
-    this._roverCollisionDetection(body);
-    this._shieldCollisionDetection(body);
+  _onAnimationUpdate(rocket) {
+    this._roverCollisionDetection(rocket.hitBox);
+    this._shieldCollisionDetection(rocket.hitBox);
     this._randomizeBotShield();
   }
 
@@ -73,19 +73,27 @@ export default class Play extends Scene {
       this._bot.shield._swapShield();
   }
 
-  _roverCollisionDetection(body) {
-    if (detectCollision(body.children[1], this._targetPlanet._rover)) {
-      this._explode(this._rocket._body);
-      this._shake();
-      this._stopRocketSound();
-      this._explosionSound();
-      this._targetPlanet._rover._healthBar.loseHealth(
-        config.planets[this._targetPlanet.name]
-      );
-      this._checkHealth();
-      this._changeTurn();
-      this._clearAnimation();
-      this._startTurn(this._currentTurn);
+  _roverCollisionDetection(hitbox) {
+    if (!detectCollision(hitbox, this._targetPlanet._rover)) return;
+    this._explode(this._rocket.body);
+    this._shake();
+    this._stopRocketSound();
+    this._explosionSound();
+    this._targetPlanet._rover._healthBar.loseHealth(
+      config.planets[this._targetPlanet.name]
+    );
+    this._checkHealth();
+    this._changeTurn();
+    this._clearAnimation();
+    this._startTurn(this._currentTurn);
+  }
+
+  _shieldCollisionDetection(hitbox) {
+    const hasCollision = this._targetPlanet.shield.hitBoxRectangles.some(
+      (rect) => detectCollision(hitbox, rect)
+    );
+    if (hasCollision) {
+      this._shieldCollisionHandler();
     }
   }
 
@@ -95,19 +103,11 @@ export default class Play extends Scene {
     }
   }
 
-  _shieldCollisionDetection(body) {
-    this._targetPlanet.shield.hitBoxRectangles.forEach(async (rectangle) => {
-      if (detectCollision(body.children[1], rectangle)) {
-        this._shieldCollisionHandler();
-      }
-    });
-  }
-
   _shieldCollisionHandler() {
     this._bounceSound();
-    const x = this._rocket._body.x;
-    const y = this._rocket._body.y;
-    const angle = this._rocket._body.angle;
+    const x = this._rocket.body.x;
+    const y = this._rocket.body.y;
+    const angle = this._rocket.body.angle;
     this._clearAnimation();
     const shootFrom = this._targetPlanet;
     this._changeTarget();
