@@ -40,10 +40,10 @@ export default class Game extends Container {
     // Assets.sounds.fight.loop(true);
     // await this.switchScene(Tutorial, { scene: "tutorial" });
     // await this.currentScene.finish;
-    // await this.switchScene(Countdown, { scene: "cd" });
-    // await this.currentScene.finish;
-    this.switchScene(Play, { scene: "play" });
-    this.setupSceneTransition();
+    await this.switchScene(Countdown, { scene: "cd" });
+    await this.currentScene.finish;
+    // this.switchScene(Play, { scene: "play" });
+    // this.setupSceneTransition();
   }
 
   setupSceneTransition() {

@@ -9,23 +9,12 @@ import { random, detectCollision } from "../core/utils";
 import gsap from "gsap/all";
 
 export default class Play extends Scene {
-  static get events() {
-    return {
-      GAME_OVER: "game_over",
-    };
-  }
-
   async onCreated() {
     this._createBackground();
     this._createPlanets();
     this._createCountdownCircle();
     this._createNumbers();
-    this._timeline = gsap.timeline();
-    this._timeline.pause();
     this._animate();
-    // Assets.sounds.battleMusic.play();
-
-    // Assets.sounds.ambience.play();
   }
 
   _createBackground() {
@@ -72,6 +61,7 @@ export default class Play extends Scene {
   }
 
   _animate() {
+    this._timeline = gsap.timeline();
     this._timeline
       .to([this._outerCircle, this._innerCircle], {
         alpha: 1,
