@@ -1,4 +1,4 @@
-import { Rectangle, Sprite, Text } from "pixi.js";
+import { Sprite } from "pixi.js";
 import Scene from "./Scene";
 import config from "../config";
 import Planet from "../components/Planet";

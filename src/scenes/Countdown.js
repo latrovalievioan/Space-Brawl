@@ -6,7 +6,16 @@ import { scaleXY } from "../core/utils";
 import Assets from "../core/AssetManager";
 import gsap from "gsap/all";
 
-export default class Play extends Scene {
+/**
+ * Represents the countdown before the main game scene appears.
+ * @class
+ */
+export default class Countdown extends Scene {
+  /**
+   * Initializes the scene.
+   * @method
+   * @async
+   */
   async onCreated() {
     this._createBackground();
     this._createPlanets();
@@ -14,6 +23,11 @@ export default class Play extends Scene {
     this._animate();
   }
 
+  /**
+   * Draws the background image from a sprite.
+   * @method
+   * @private
+   */
   _createBackground() {
     this._background = new Sprite.from("playScene");
     this._background.anchor.set(0.5);
@@ -21,6 +35,11 @@ export default class Play extends Scene {
     this.addChild(this._background);
   }
 
+  /**
+   * Draws the planets for the scene.
+   * @method
+   * @private
+   */
   _createPlanets() {
     this._blueBigPlanet = new Planet(config.planets.blueBig, "blueBig");
     this.addChild(this._blueBigPlanet);
@@ -30,6 +49,11 @@ export default class Play extends Scene {
     this.addChild(new Planet(config.planets.smallRed, "redSmall"));
   }
 
+  /**
+   * Draws the countdown circle.
+   * @method
+   * @private
+   */
   _createCountdownCircle() {
     this._outerCircle = new Sprite.from("countdownCircle");
     this._innerCircle = new Sprite.from("countdownFill");
@@ -42,6 +66,11 @@ export default class Play extends Scene {
     this.addChild(this._innerCircle);
   }
 
+  /**
+   * Draws a countdown number.
+   * @param {string} name
+   * @returns PIXI Object
+   */
   _createNumber(name) {
     const num = new Sprite.from(name);
     num.anchor.set(0.5);
@@ -50,6 +79,11 @@ export default class Play extends Scene {
     return num;
   }
 
+  /**
+   * Animates the countdown numbers.
+   * @method
+   * @private
+   */
   _animate() {
     this._timeline = gsap.timeline();
     this._timeline.to([this._outerCircle, this._innerCircle], {
