@@ -9,7 +9,6 @@ export default class Win extends Scene {
   constructor(loser) {
     super();
     this._loser = loser;
-    this._timeline = gsap.timeline();
     this._config = config.scenes.Win;
     this._createBackground();
     this._createTitle();
@@ -64,7 +63,8 @@ export default class Win extends Scene {
   }
 
   _animateIn() {
-    this._timeline
+    gsap
+      .timeline()
       .from(this._title.scale, {
         x: 0,
         y: 0,
