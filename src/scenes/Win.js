@@ -5,7 +5,15 @@ import config from "../config";
 import gsap from "gsap/all";
 import { scaleXY } from "../core/utils";
 
+/**
+ * Represents the end screen scene of the game.
+ * @class
+ */
 export default class Win extends Scene {
+  /**
+   *
+   * @param {String} loser - The name of the loosing planet.
+   */
   constructor(loser) {
     super();
     this._loser = loser;
@@ -21,7 +29,11 @@ export default class Win extends Scene {
       REPLAY: "replay",
     };
   }
-
+  /**
+   * Draws the background of the scene from a sprite.
+   * @method
+   * @private
+   */
   _createBackground() {
     this._background = new Sprite.from(Assets.images["play-scene"]);
     this._background.anchor.set(0.5);
@@ -31,6 +43,11 @@ export default class Win extends Scene {
     this.addChild(this._background);
   }
 
+  /**
+   * Draws the title acconding to the winner of the previous scene.
+   * @method
+   * @private
+   */
   _createTitle() {
     const sprite = this._loser === "blueBig" ? "redWins" : "blueWins";
     this._title = Sprite.from(sprite);
@@ -38,6 +55,11 @@ export default class Win extends Scene {
     this.addChild(this._title);
   }
 
+  /**
+   * Draws a replay button from sprite.
+   * @method
+   * @private
+   */
   _createButton() {
     this._button = new Sprite.from("replayButton");
     this._button.anchor.set(0.5);
@@ -50,6 +72,11 @@ export default class Win extends Scene {
     this.addChild(this._button);
   }
 
+  /**
+   * Draws stars.
+   * @method
+   * @private
+   */
   _createStars() {
     for (const { x, y, angle, scale } of this._config.starsCoordinates) {
       const star = new Sprite.from("star");
@@ -62,6 +89,11 @@ export default class Win extends Scene {
     }
   }
 
+  /**
+   * Animates the beggining of the scene.
+   * @method
+   * @private
+   */
   _animateIn() {
     gsap
       .timeline()
