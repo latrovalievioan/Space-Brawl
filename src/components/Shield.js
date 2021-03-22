@@ -15,6 +15,10 @@ export default class Shield extends Container {
     this._inactivePart = this._createShieldParts(inactivePart, lowerPart);
   }
 
+  get isActive() {
+    return this._tl && this._tl.isActive();
+  }
+
   _createShieldParts({ image }, { scale, x, y, angle }) {
     const shieldPart = new Sprite.from(image);
     shieldPart.anchor.set(0.5);

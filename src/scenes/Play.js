@@ -22,9 +22,9 @@ export default class Play extends Scene {
     this._shieldSwapListener();
     this._currentTurn = this._redBigPlanet;
     this._targetPlanet = this._blueBigPlanet;
-    this._player = this._redBigPlanet;
+    this._playerPlanet = this._redBigPlanet;
     this._bot = this._blueBigPlanet;
-    this._turn(this._currentTurn);
+    this._startTurn(this._currentTurn);
   }
 
   _shake() {
@@ -45,12 +45,12 @@ export default class Play extends Scene {
     setTimeout(() => this.removeChild(this._explosion), 1000);
   }
 
-  async _turn(player) {
-    if (player !== this._player) {
-      setTimeout(async () => {
-        await this._shootRocket(player._rocketConfig, true);
+  _startTurn(planetOnTurn) {
+    if (planetOnTurn !== this._playerPlanet) {
+      setTimeout(() => {
+        this._shootRocket(planetOnTurn._rocketConfig, true);
       }, 1000);
-    } else if (player === this._player) {
+    } else {
       document.addEventListener("keydown", (e) => this._shootHandler(e), {
         once: true,
       });
@@ -61,15 +61,18 @@ export default class Play extends Scene {
     Assets.sounds.shootRight.stop();
     Assets.sounds.shootLeft.stop();
   }
+
   _onAnimationUpdate(body) {
     this._roverCollisionDetection(body);
     this._shieldCollisionDetection(body);
     this._randomizeBotShield();
   }
+
   _randomizeBotShield() {
-    if (this._bot.shield._tl && this._bot.shield._tl.isActive()) return;
-    else if (Math.floor(random(0, 100)) === 0) this._bot.shield._swapShield();
+    if (random(0, 100) < 1 && !this._bot.shield.isActive)
+      this._bot.shield._swapShield();
   }
+
   _roverCollisionDetection(body) {
     if (detectCollision(body.children[1], this._targetPlanet._rover)) {
       this._explode(this._rocket._body);
@@ -82,7 +85,7 @@ export default class Play extends Scene {
       this._checkHealth();
       this._changeTurn();
       this._clearAnimation();
-      this._turn(this._currentTurn);
+      this._startTurn(this._currentTurn);
     }
   }
 
@@ -143,7 +146,7 @@ export default class Play extends Scene {
 
   async _shootHandler({ key }) {
     if (key === " ") {
-      await this._shootRocket(this._player._rocketConfig, true);
+      await this._shootRocket(this._playerPlanet._rocketConfig, true);
     } else {
       document.addEventListener("keydown", (e) => this._shootHandler(e), {
         once: true,
