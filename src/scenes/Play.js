@@ -92,24 +92,10 @@ export default class Play extends Scene {
     const hasCollision = this._targetPlanet.shield.hitBoxRectangles.some(
       (rect) => detectCollision(hitbox, rect)
     );
-    if (hasCollision) {
-      this._shieldCollisionHandler();
-    }
-  }
-
-  _checkHealth() {
-    if (this._targetPlanet._rover._healthBar._currentHealth === 0) {
-      this.emit(Play.events.GAME_OVER, { name: this._targetPlanet.name });
-    }
-  }
-
-  _shieldCollisionHandler() {
+    if (!hasCollision) return;
     this._bounceSound();
-    const x = this._rocket.body.x;
-    const y = this._rocket.body.y;
-    const angle = this._rocket.body.angle;
+    const { x, y, angle } = this._rocket.body;
     this._clearAnimation();
-    const shootFrom = this._targetPlanet;
     this._changeTarget();
     const config = {
       body: {
@@ -118,9 +104,15 @@ export default class Play extends Scene {
         y,
         angle,
       },
-      flame: shootFrom._rocketConfig.flame,
+      flame: this._targetPlanet._rocketConfig.flame,
     };
     this._shootRocket(config);
+  }
+
+  _checkHealth() {
+    if (this._targetPlanet._rover._healthBar._currentHealth === 0) {
+      this.emit(Play.events.GAME_OVER, { name: this._targetPlanet.name });
+    }
   }
 
   _changeTarget() {
