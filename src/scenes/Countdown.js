@@ -13,7 +13,6 @@ export default class Play extends Scene {
     this._createBackground();
     this._createPlanets();
     this._createCountdownCircle();
-    this._createNumbers();
     this._animate();
   }
 
@@ -45,75 +44,44 @@ export default class Play extends Scene {
     this.addChild(this._innerCircle);
   }
 
-  _createNumbers() {
-    this._1 = new Sprite.from("one");
-    this._1.anchor.set(0.5);
-    this._1.alpha = 0;
-    this.addChild(this._1);
-    this._2 = new Sprite.from("two");
-    this._2.anchor.set(0.5);
-    this._2.alpha = 0;
-    this.addChild(this._2);
-    this._3 = new Sprite.from("tree");
-    this._3.anchor.set(0.5);
-    this._3.alpha = 0;
-    this.addChild(this._3);
+  _createNumber(name) {
+    const num = new Sprite.from(name);
+    num.anchor.set(0.5);
+    num.alpha = 0;
+    this.addChild(num);
+    return num;
   }
 
   _animate() {
     this._timeline = gsap.timeline();
-    this._timeline
-      .to([this._outerCircle, this._innerCircle], {
-        alpha: 1,
-        duration: 1,
-        ease: "none",
-      })
-      .set(this._3, {
-        alpha: 1,
-      })
-      .call(() => Assets.sounds.beep.play())
-      .from(this._3.scale, {
-        x: 0,
-        y: 0,
-        ease: "bounce",
-        duration: 1,
-      })
-      .to(this._3, {
-        alpha: 0,
-        duration: 0.5,
-      })
-      .set(this._2, {
-        alpha: 1,
-      })
-      .call(() => Assets.sounds.beep.play())
-      .from(this._2.scale, {
-        x: 0,
-        y: 0,
-        ease: "bounce",
-        duration: 1,
-      })
-      .to(this._2, {
-        alpha: 0,
-        duration: 0.5,
-      })
-      .set(this._1, {
-        alpha: 1,
-      })
-      .call(() => Assets.sounds.beep.play())
-      .from(this._1.scale, {
-        x: 0,
-        y: 0,
-        ease: "bounce",
-        duration: 1,
-      })
-      .to(this._1, {
-        alpha: 0,
-        duration: 0.5,
-      })
-      .to([this._outerCircle.scale, this._innerCircle.scale], {
-        x: 0,
-        y: 0,
-      });
+    this._timeline.to([this._outerCircle, this._innerCircle], {
+      alpha: 1,
+      duration: 1,
+      ease: "none",
+    });
+
+    for (const name of ["three", "two", "one"]) {
+      const numberSprite = this._createNumber(name);
+      this._timeline
+        .set(numberSprite, {
+          alpha: 1,
+        })
+        .call(() => Assets.sounds.beep.play())
+        .from(numberSprite.scale, {
+          x: 0,
+          y: 0,
+          ease: "bounce",
+          duration: 1,
+        })
+        .to(numberSprite, {
+          alpha: 0,
+          duration: 0.5,
+        });
+    }
+    this._timeline.to([this._outerCircle.scale, this._innerCircle.scale], {
+      x: 0,
+      y: 0,
+    });
   }
 
   get finish() {

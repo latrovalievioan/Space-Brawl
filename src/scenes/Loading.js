@@ -96,7 +96,7 @@ export default class Loading extends Scene {
       countdownFill: Assets.images.countdownFill,
       one: Assets.images["1"],
       two: Assets.images["2"],
-      tree: Assets.images["3"],
+      three: Assets.images["3"],
       gameInstructions: Assets.images.gameInstructions,
       title: Assets.images.title,
       nextButton: Assets.images.nextButton,
