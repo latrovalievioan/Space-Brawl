@@ -34,11 +34,8 @@ export default class Win extends Scene {
   }
 
   _createTitle() {
-    if (this._loser === "blueBig") {
-      this._title = new Sprite.from("redWins");
-    } else if (this._loser === "redBig") {
-      this._title = new Sprite.from("blueWins");
-    }
+    const sprite = this._loser === "blueBig" ? "redWins" : "blueWins";
+    this._title = Sprite.from(sprite);
     this._title.anchor.set(0.5);
     this.addChild(this._title);
   }
