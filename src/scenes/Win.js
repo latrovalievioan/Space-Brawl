@@ -1,13 +1,14 @@
 import Assets from "../core/AssetManager";
 import Scene from "./Scene";
-import { Sprite, Text, filters, Graphics, TilingSprite } from "pixi.js";
+import { Sprite, filters } from "pixi.js";
 import config from "../config";
 import gsap from "gsap/all";
 import { scaleXY } from "../core/utils";
 
 export default class Win extends Scene {
-  constructor() {
+  constructor(loser) {
     super();
+    this._loser = loser;
     this._stars = [];
     this._timeline = gsap.timeline();
     this._config = config.scenes.Win;
@@ -33,9 +34,9 @@ export default class Win extends Scene {
   }
 
   _createTitle() {
-    if (localStorage.getItem("loser") === "blueBig") {
+    if (this._loser === "blueBig") {
       this._title = new Sprite.from("redWins");
-    } else if (localStorage.getItem("loser") === "redBig") {
+    } else if (this._loser === "redBig") {
       this._title = new Sprite.from("blueWins");
     }
     this._title.anchor.set(0.5);

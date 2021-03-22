@@ -88,8 +88,7 @@ export default class Play extends Scene {
 
   _checkHealth() {
     if (this._targetPlanet._rover._healthBar._currentHealth === 0) {
-      localStorage.setItem("loser", this._targetPlanet.name);
-      this.emit(Play.events.GAME_OVER);
+      this.emit(Play.events.GAME_OVER, { name: this._targetPlanet.name });
     }
   }
 

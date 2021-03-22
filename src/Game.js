@@ -23,7 +23,7 @@ export default class Game extends Container {
   /**
    * @param {PIXI.Sprite} background
    */
-  constructor({ background } = {}) {
+  constructor({ background }) {
     super();
 
     this._background = background;
@@ -32,23 +32,23 @@ export default class Game extends Container {
   async start() {
     await this.switchScene(Loading, { scene: "loading" });
     await this.currentScene.finish;
-    // await Assets.prepareSpritesheets([
-    //   { texture: "explosion", data: explosion },
-    //   { texture: "fire", data: fire },
-    // ]);
+    await Assets.prepareSpritesheets([
+      { texture: "explosion", data: explosion },
+      { texture: "fire", data: fire },
+    ]);
     // Assets.sounds.fight.play();
     // Assets.sounds.fight.loop(true);
     // await this.switchScene(Tutorial, { scene: "tutorial" });
     // await this.currentScene.finish;
     // await this.switchScene(Countdown, { scene: "cd" });
     // await this.currentScene.finish;
-    // this.switchScene(Play, { scene: "play" });
-    // this.setupSceneTransition();
+    this.switchScene(Play, { scene: "play" });
+    this.setupSceneTransition();
   }
 
   setupSceneTransition() {
-    this.currentScene.once(Play.events.GAME_OVER, () => {
-      this.switchScene(Win, { scene: "win" });
+    this.currentScene.once(Play.events.GAME_OVER, (loser) => {
+      this.switchScene(Win, { scene: "win" }, loser.name);
       this.currentScene.once(Win.events.REPLAY, () => {
         this.switchScene(Play, { scene: "play" });
         this.setupSceneTransition();
@@ -60,9 +60,9 @@ export default class Game extends Container {
    * @param {Function} constructor
    * @param {String} scene
    */
-  switchScene(constructor, scene) {
+  switchScene(constructor, scene, ...args) {
     this.removeChild(this.currentScene);
-    this.currentScene = new constructor();
+    this.currentScene = new constructor(...args);
     this.currentScene.background = this._background;
     this.addChild(this.currentScene);
 
