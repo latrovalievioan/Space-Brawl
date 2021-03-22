@@ -84,7 +84,7 @@ export default class Play extends Scene {
     );
     this._checkHealth();
     this._changeTurn();
-    this._clearAnimation();
+    this._clearRocketAnimation();
     this._startTurn(this._currentTurn);
   }
 
@@ -95,7 +95,7 @@ export default class Play extends Scene {
     if (!hasCollision) return;
     this._bounceSound();
     const { x, y, angle } = this._rocket.body;
-    this._clearAnimation();
+    this._clearRocketAnimation();
     this._changeTarget();
     const config = {
       body: {
@@ -121,6 +121,7 @@ export default class Play extends Scene {
         ? this._blueBigPlanet
         : this._redBigPlanet;
   }
+
   _changeTurn() {
     this._currentTurn =
       this._currentTurn === this._redBigPlanet
@@ -131,14 +132,14 @@ export default class Play extends Scene {
     }
   }
 
-  _clearAnimation() {
+  _clearRocketAnimation() {
     this._rocket._tl.clear();
     this.removeChild(this._rocket);
   }
 
-  async _shootHandler({ key }) {
+  _shootHandler({ key }) {
     if (key === " ") {
-      await this._shootRocket(this._playerPlanet._rocketConfig, true);
+      this._shootRocket(this._playerPlanet._rocketConfig, true);
     } else {
       document.addEventListener("keydown", (e) => this._shootHandler(e), {
         once: true,
