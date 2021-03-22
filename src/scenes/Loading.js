@@ -3,6 +3,10 @@ import Scene from "./Scene";
 import { Sprite, filters, Graphics } from "pixi.js";
 import config from "../config";
 
+/**
+ * Represents the loading screen, and shows a loading bar which scales according to the loading progress.
+ * @class
+ */
 export default class Loading extends Scene {
   constructor() {
     super();
@@ -13,6 +17,11 @@ export default class Loading extends Scene {
     this._createLoadMeter();
   }
 
+  /**
+   * Draws the background of the scene from a sprite.
+   * @method
+   * @private
+   */
   _createBackground() {
     this._background = new Sprite.from(Assets.images["play-scene"]);
     this._background.anchor.set(0.5);
@@ -22,12 +31,22 @@ export default class Loading extends Scene {
     this.addChild(this._background);
   }
 
+  /**
+   * Draws a logo.
+   * @method
+   * @private
+   */
   _createLogo() {
     this._logo = new Sprite.from(Assets.images.ooo);
     this._logo.anchor.set(0.5);
     this.addChild(this._logo);
   }
 
+  /**
+   * Draws the loading bar frame.
+   * @method
+   * @private
+   */
   _createLoadingBar() {
     const { x, y, width, height, radius } = this._config.loadingBar;
     this._loadingBar = new Graphics();
@@ -40,11 +59,17 @@ export default class Loading extends Scene {
     this.addChild(this._loadingBar);
   }
 
-  _createLoadMeter(val) {
+  /**
+   *Draws the loading meter according to the load progress.
+   * @param {number} progress
+   * @method
+   * @private
+   */
+  _createLoadMeter(progress) {
     const { x, y, height, radius } = this._config.loadMeter;
     this._loadMeter = new Graphics();
     this._loadMeter.beginFill(0xffffff);
-    this._loadMeter.drawRoundedRect(x, y, val, height, radius);
+    this._loadMeter.drawRoundedRect(x, y, progress, height, radius);
     this._loadMeter.pivot.y = height / 2;
     this._loadMeter.y = window.innerHeight / 6.5;
     this._loadMeter.endFill();
@@ -55,6 +80,11 @@ export default class Loading extends Scene {
     return new Promise((res) => setTimeout(res, this._config.hideDelay));
   }
 
+  /**
+   * Preloads the given assets.
+   * @returns Promise
+   * @method
+   */
   preload() {
     const images = {
       planet1: Assets.images["planet-1"],
@@ -116,6 +146,11 @@ export default class Loading extends Scene {
     // this.height = height;
   }
 
+  /**
+   * Creates a new load meter on progress.
+   * @param {Number} progress
+   * @method
+   */
   onLoadProgress(progress) {
     this.removeChild(this._loadMeter);
     this._createLoadMeter((progress / 100) * this._config.loadMeter.width);
