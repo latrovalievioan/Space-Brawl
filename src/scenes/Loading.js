@@ -1,8 +1,7 @@
 import Assets from "../core/AssetManager";
 import Scene from "./Scene";
-import { Sprite, Text, filters, Graphics } from "pixi.js";
+import { Sprite, filters, Graphics } from "pixi.js";
 import config from "../config";
-import gsap from "gsap/all";
 
 export default class Loading extends Scene {
   constructor() {
@@ -30,33 +29,23 @@ export default class Loading extends Scene {
   }
 
   _createLoadingBar() {
+    const { x, y, width, height, radius } = this._config.loadingBar;
     this._loadingBar = new Graphics();
     this._loadingBar.lineStyle(2, 0xffffff, 1, 0);
-    this._loadingBar.drawRoundedRect(
-      this._config.loadingBar.x,
-      this._config.loadingBar.y,
-      this._config.loadingBar.width,
-      this._config.loadingBar.height,
-      this._config.loadingBar.radius
-    );
-    this._loadingBar.pivot.x = this._config.loadingBar.width / 2;
-    this._loadingBar.pivot.y = this._config.loadingBar.height / 2;
+    this._loadingBar.drawRoundedRect(x, y, width, height, radius);
+    this._loadingBar.pivot.x = width / 2;
+    this._loadingBar.pivot.y = height / 2;
     this._loadingBar.y = window.innerHeight / 6.5;
     this._loadingBar.endFill();
     this.addChild(this._loadingBar);
   }
 
   _createLoadMeter(val) {
+    const { x, y, height, radius } = this._config.loadMeter;
     this._loadMeter = new Graphics();
     this._loadMeter.beginFill(0xffffff);
-    this._loadMeter.drawRoundedRect(
-      this._config.loadMeter.x,
-      this._config.loadMeter.y,
-      val,
-      this._config.loadMeter.height,
-      this._config.loadMeter.radius
-    );
-    this._loadMeter.pivot.y = this._config.loadMeter.height / 2;
+    this._loadMeter.drawRoundedRect(x, y, val, height, radius);
+    this._loadMeter.pivot.y = height / 2;
     this._loadMeter.y = window.innerHeight / 6.5;
     this._loadMeter.endFill();
     this.addChild(this._loadMeter);
@@ -127,8 +116,8 @@ export default class Loading extends Scene {
     // this.height = height;
   }
 
-  onLoadProgress(val) {
+  onLoadProgress(progress) {
     this.removeChild(this._loadMeter);
-    this._createLoadMeter((val / 100) * this._config.loadMeter.width);
+    this._createLoadMeter((progress / 100) * this._config.loadMeter.width);
   }
 }
