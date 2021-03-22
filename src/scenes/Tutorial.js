@@ -1,4 +1,4 @@
-import { Container, Sprite, filters, Text } from "pixi.js";
+import { Sprite, filters } from "pixi.js";
 import gsap from "gsap/all";
 import Scene from "./Scene";
 import config from "../config";
@@ -34,12 +34,12 @@ export default class Tutorial extends Scene {
     return this._finishPromise;
   }
   _createBackground() {
-    this._background = new Sprite.from("playScene");
-    this._background.anchor.set(0.5);
+    const background = new Sprite.from("playScene");
+    background.anchor.set(0.5);
     const blurFilter = new filters.BlurFilter();
-    this._background.filters = [blurFilter];
+    background.filters = [blurFilter];
     blurFilter.blur = this._config.backgroundBlur;
-    this.addChild(this._background);
+    this.addChild(background);
   }
 
   _createGameInstructions() {
@@ -49,7 +49,7 @@ export default class Tutorial extends Scene {
     this.addChild(this._gameInstructions);
   }
 
-  _createTitle({ y, scale }) {
+  _createTitle({ scale }) {
     this._title = new Sprite.from("title");
     const title = this._title;
     title.anchor.set(0.5);
@@ -57,7 +57,7 @@ export default class Tutorial extends Scene {
     scaleXY(title, scale);
     this.addChild(this._title);
   }
-  _createNextButton({ y }) {
+  _createNextButton() {
     this._nextButton = new Sprite.from("nextButton");
     const button = this._nextButton;
     button.anchor.set(0.5);
