@@ -9,13 +9,12 @@ export default class Win extends Scene {
   constructor(loser) {
     super();
     this._loser = loser;
-    this._stars = [];
     this._timeline = gsap.timeline();
     this._config = config.scenes.Win;
     this._createBackground();
     this._createTitle();
     this._createButton();
-    this._createStars("star");
+    this._createStars();
     this._animateIn();
   }
   static get events() {
@@ -52,22 +51,16 @@ export default class Win extends Scene {
     this.addChild(this._button);
   }
 
-  _createStars(image) {
-    this._createStar(image, -350, -300, -25, 0.8);
-    this._createStar(image, 350, -300, 25, 0.8);
-    this._createStar(image, -430, 0, 30, 0.5);
-    this._createStar(image, 430, 0, 30, 0.5);
-  }
-
-  _createStar(image, x, y, angle, scale) {
-    const star = new Sprite.from(image);
-    star.anchor.set(0.5);
-    star.x = x;
-    star.y = y;
-    star.angle = angle;
-    scaleXY(star, scale);
-    this.addChild(star);
-    this._stars.push(star);
+  _createStars() {
+    for (const { x, y, angle, scale } of this._config.starsCoordinates) {
+      const star = new Sprite.from("star");
+      star.anchor.set(0.5);
+      star.x = x;
+      star.y = y;
+      star.angle = angle;
+      scaleXY(star, scale);
+      this.addChild(star);
+    }
   }
 
   _animateIn() {

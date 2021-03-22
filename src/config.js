@@ -67,6 +67,12 @@ export default {
     },
     Win: {
       backgroundBlur: 20,
+      starsCoordinates: [
+        { x: -350, y: -300, angle: -25, scale: 0.8 },
+        { x: 350, y: 300, angle: 25, scale: 0.8 },
+        { x: -430, y: 0, angle: 30, scale: 0.5 },
+        { x: 430, y: 0, angle: 30, scale: 0.5 },
+      ],
     },
   },
   assets: {
