@@ -60,22 +60,6 @@ export default class Shield extends Container {
         },
         "<"
       );
-
-    // [
-    //   active.x,
-    //   active.y,
-    //   active.angle,
-    //   inactive.x,
-    //   inactive.y,
-    //   inactive.angle,
-    // ] = [
-    //   inactive.x,
-    //   inactive.y,
-    //   inactive.angle - 90,
-    //   active.x,
-    //   active.y,
-    //   active.angle + 90,
-    // ];
   }
 
   _swapHitBoxes() {

@@ -62,6 +62,7 @@ export default class Win extends Scene {
    */
   _createButton() {
     this._button = new Sprite.from("replayButton");
+    this._button.name = "replayButton";
     this._button.anchor.set(0.5);
     this._button.interactive = true;
     this._button.buttonMode = true;

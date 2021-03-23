@@ -7,6 +7,7 @@ import { Container } from "pixi.js";
 import fire from "./static/fire.json";
 import Assets from "./core/AssetManager";
 import explosion from "./static/explosion.json";
+import { fit } from "./core/utils";
 
 /**
  * Main game stage, manages scenes/levels.
@@ -25,7 +26,7 @@ export default class Game extends Container {
    */
   constructor({ background }) {
     super();
-
+    this.name = "game";
     this._background = background;
     this.currentScene = null;
   }
@@ -38,14 +39,13 @@ export default class Game extends Container {
     ]);
     // Assets.sounds.fight.play();
     // Assets.sounds.fight.loop(true);
-    // await this.switchScene(Tutorial, { scene: "tutorial" });
-    // await this.currentScene.finish;
-    // await this.switchScene(Countdown, { scene: "cd" });
-    // await this.currentScene.finish;
+    await this.switchScene(Tutorial, { scene: "tutorial" });
+    await this.currentScene.finish;
+    await this.switchScene(Countdown, { scene: "cd" });
+    await this.currentScene.finish;
     this.switchScene(Play, { scene: "play" });
-    // this.setupSceneTransition();
+    this.setupSceneTransition();
   }
-
   setupSceneTransition() {
     this.currentScene.once(Play.events.GAME_OVER, (loser) => {
       this.switchScene(Win, { scene: "win" }, loser.name);

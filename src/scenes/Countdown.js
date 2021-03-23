@@ -11,6 +11,10 @@ import gsap from "gsap/all";
  * @class
  */
 export default class Countdown extends Scene {
+  constructor() {
+    super();
+    this.name = "countdown";
+  }
   /**
    * Initializes the scene.
    * @method

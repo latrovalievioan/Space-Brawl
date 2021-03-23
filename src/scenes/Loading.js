@@ -10,6 +10,7 @@ import config from "../config";
 export default class Loading extends Scene {
   constructor() {
     super();
+    this.name = "loading";
     this._config = config.scenes.Loading;
     this._createBackground();
     this._createLogo();

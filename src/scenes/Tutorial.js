@@ -15,6 +15,7 @@ const defer = () => {
 export default class Tutorial extends Scene {
   constructor() {
     super();
+    this.name = "tutorial";
     this._finishPromise = defer();
     this._config = config.scenes.Tutorial;
     this._timeline = gsap.timeline();
@@ -59,6 +60,7 @@ export default class Tutorial extends Scene {
   }
   _createNextButton() {
     this._nextButton = new Sprite.from("nextButton");
+    this._nextButton.name = "nextButton";
     const button = this._nextButton;
     button.anchor.set(0.5);
     button.y = window.innerHeight;
@@ -75,6 +77,7 @@ export default class Tutorial extends Scene {
 
   _createPlayButton({ y }) {
     this._playButton = new Sprite.from("playButton");
+    this._playButton.name = "playButton";
     const button = this._playButton;
     button.anchor.set(0.5);
     button.y = y;
@@ -159,6 +162,7 @@ export default class Tutorial extends Scene {
         },
         "<"
       );
+    return "button instructions";
   }
   _animateButtonInstructions({
     arrows: { up: upArrowConfig, down: downArrowConfig },

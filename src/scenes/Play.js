@@ -10,6 +10,10 @@ import Explosion from "../components/Explosion";
 import gsap from "gsap/all";
 
 export default class Play extends Scene {
+  constructor() {
+    super();
+    this.name = "playScene";
+  }
   static get events() {
     return {
       GAME_OVER: "game_over",
@@ -189,14 +193,14 @@ export default class Play extends Scene {
   _shieldSwapListener() {
     document.addEventListener("keydown", (e) => {
       this._redBigPlanet.shield._shieldSwapHandler(e);
-      // this._blueBigPlanet.shield._shieldSwapHandler(e); <--- debugging only!
     });
   }
+
   _createBackground() {
-    this._background = new Sprite.from("playScene");
-    this._background.anchor.set(0.5);
-    scaleXY(this._background, config.backgroundImage.scale);
-    this.addChild(this._background);
+    const background = new Sprite.from("playScene");
+    background.anchor.set(0.5);
+    scaleXY(background, config.backgroundImage.scale);
+    this.addChild(background);
   }
 
   _createPlanets() {
