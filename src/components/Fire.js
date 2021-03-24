@@ -1,11 +1,20 @@
 import { Container, AnimatedSprite, BLEND_MODES } from "pixi.js";
 import Assets from "../core/AssetManager";
 
+/**
+ * Represents a fire animaion container.
+ * @class
+ */
 export default class Fire extends Container {
   constructor() {
     super();
-
+    /**
+     * Top part of the fire.
+     */
     this._top = null;
+    /**
+     * Bottom part of the fire.
+     */
     this._bottom = null;
 
     this._bottom = new AnimatedSprite(Assets.spritesheets.fire.animations.fire);
@@ -23,12 +32,20 @@ export default class Fire extends Container {
     this.ignite();
   }
 
+  /**
+   * Plays the fire animation.
+   * @method
+   */
   ignite() {
     this._top.play();
     this._bottom.play();
     this.alpha = 1;
   }
 
+  /**
+   * Extinguishes the fire animation.
+   * @method
+   */
   extinguish() {
     this._top.pause();
     this._bottom.pause();
