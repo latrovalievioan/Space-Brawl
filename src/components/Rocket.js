@@ -5,9 +5,15 @@ import { random } from "../core/utils";
 import Fire from "./Fire";
 import MotionPathPlugin from "../../node_modules/gsap/MotionPathPlugin";
 gsap.registerPlugin(MotionPathPlugin);
-import Assets from "../core/AssetManager";
 
+/**
+ * Represents a rocket that flies by randomly generated bezier path to its target.
+ * @class
+ */
 export default class Rocket extends Container {
+  /**
+   * @param {{Object,Object}} Object - Config Objects.
+   */
   constructor({ body, flame }) {
     super();
     this._tl = gsap.timeline();
@@ -18,6 +24,13 @@ export default class Rocket extends Container {
     this.sortableChildren = true;
     this._createHitBox();
   }
+
+  /**
+   * Draws the body of the rocket.
+   * @param {{string, number,number,number,number}} Object
+   * @method
+   * @private
+   */
   _createBody({ image, scale = 1, x = 0, y = 0, angle = 0 }) {
     this.body = new Sprite.from(image);
     this.body.anchor.set(0.5);
@@ -27,6 +40,10 @@ export default class Rocket extends Container {
     this.body.angle = angle;
     this.addChild(this.body);
   }
+  /**
+   * Draws the fire of the engine of the rocket.
+   * @param {{number,number,number,number}} Object
+   */
   _createFire({ scale, x, y, angle }) {
     this._fire = new Fire();
     scaleXY(this._fire, scale);
@@ -36,13 +53,28 @@ export default class Rocket extends Container {
     this.body.addChild(this._fire);
   }
 
-  generatePoint1(x, y) {
+  /**
+   * Generates the first point of the bezier path of the rocket animation.
+   * @param {number} x
+   * @returns Object {x: number, y: number}
+   * @method
+   * @private
+   */
+  generatePoint1(x) {
     return {
       x: Math.round(random(this.body.x, x / 2)),
       y: Math.round(random(this.body.y - 600, 600)),
     };
   }
 
+  /**
+   * Generates the second point of the bezier path of the rocket animation.
+   * @param {number} x
+   * @param {number} y
+   * @returns Object {x: number, y: number}
+   * @method
+   * @private
+   */
   generatePoint2(x, y) {
     return {
       x: Math.round(random(this.body.x + x, x)),
@@ -50,6 +82,11 @@ export default class Rocket extends Container {
     };
   }
 
+  /**
+   * Draws the hitbox of the rocket.
+   * @method
+   * @private
+   */
   _createHitBox() {
     this.hitBox = PIXI.Sprite.from(PIXI.Texture.WHITE);
     this.hitBox.width = 20;
@@ -62,6 +99,14 @@ export default class Rocket extends Container {
     this.body.addChild(this.hitBox);
   }
 
+  /**
+   * Animates the rocket's flight.
+   * @param {Function} onAnimationUpdate
+   * @param {Object} targetPlanet
+   * @returns Promise.
+   * @method
+   * @public
+   */
   animateRocket(onAnimationUpdate, targetPlanet) {
     let targetPoint = new PIXI.Point(0, 0);
     targetPoint = targetPlanet._rover._body.toLocal(targetPoint, this);
