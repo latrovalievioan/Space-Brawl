@@ -1,4 +1,4 @@
-import { Sprite } from "pixi.js";
+import { DisplayObject, Sprite } from "pixi.js";
 import Scene from "./Scene";
 import config from "../config";
 import Planet from "../components/Planet";
@@ -9,6 +9,10 @@ import { random, detectCollision } from "../core/utils";
 import Explosion from "../components/Explosion";
 import gsap from "gsap/all";
 
+/**
+ * Represents the main scene of the game.
+ * @class
+ */
 export default class Play extends Scene {
   constructor() {
     super();
@@ -20,6 +24,11 @@ export default class Play extends Scene {
     };
   }
 
+  /**
+   * Initializes the scene.
+   * @method
+   * @public
+   */
   async onCreated() {
     this._createBackground();
     this._createPlanets();
@@ -31,6 +40,11 @@ export default class Play extends Scene {
     this._startTurn(this._currentTurn);
   }
 
+  /**
+   * Shakes the scene.
+   * @method
+   * @private
+   */
   _shake() {
     gsap.to(this, {
       y: 5,
@@ -41,6 +55,12 @@ export default class Play extends Scene {
     });
   }
 
+  /**
+   * Creates an explosion.
+   * @param {{Number,Number}} Object - Config.
+   * @method
+   * @private
+   */
   _explode({ x, y }) {
     this._explosion = new Explosion();
     this._explosion.x = x;
@@ -49,6 +69,12 @@ export default class Play extends Scene {
     setTimeout(() => this.removeChild(this._explosion), 1000);
   }
 
+  /**
+   * Starts the turn.
+   * @param {Object} planetOnTurn - Planet that has the current turn.
+   * @method
+   * @private
+   */
   _startTurn(planetOnTurn) {
     if (planetOnTurn !== this._playerPlanet) {
       setTimeout(() => {
@@ -61,22 +87,44 @@ export default class Play extends Scene {
     }
   }
 
+  /**
+   * Stops the sound of the rocket.
+   * @method
+   * @private
+   */
   _stopRocketSound() {
     Assets.sounds.shootRight.stop();
     Assets.sounds.shootLeft.stop();
   }
 
+  /**
+   * Called on every frame of the rocket's flight animation.
+   * @param {Object} Object - rocket.
+   * @method
+   * @private
+   */
   _onAnimationUpdate(rocket) {
     this._roverCollisionDetection(rocket.hitBox);
     this._shieldCollisionDetection(rocket.hitBox);
     this._randomizeBotShield();
   }
 
+  /**
+   * Randomizes bot's shield swaps.
+   * @method
+   * @private
+   */
   _randomizeBotShield() {
     if (random(0, 100) < 1 && !this._bot.shield.isActive)
       this._bot.shield._swapShield();
   }
 
+  /**
+   * Detects and handles collision between the target planet's rover and the rocket.
+   * @param {DisplayObject} Object - hitbox of the rocket.
+   * @method
+   * @private
+   */
   _roverCollisionDetection(hitbox) {
     if (!detectCollision(hitbox, this._targetPlanet._rover)) return;
     this._explode(this._rocket.body);
@@ -92,6 +140,12 @@ export default class Play extends Scene {
     this._startTurn(this._currentTurn);
   }
 
+  /**
+   * Detects and handles collision between the target planet's shield hitboxes and the rocket.
+   * @param {DisplayObject} Object - hitbox of the rocket.
+   * @method
+   * @private
+   */
   _shieldCollisionDetection(hitbox) {
     const hasCollision = this._targetPlanet.shield.hitBoxRectangles.some(
       (rect) => detectCollision(hitbox, rect)
@@ -113,12 +167,22 @@ export default class Play extends Scene {
     this._shootRocket(config);
   }
 
+  /**
+   * Checks the health of the last collided rover. End's the scene if the health is 0.
+   * @method
+   * @private
+   */
   _checkHealth() {
-    if (this._targetPlanet._rover._healthBar._currentHealth === 0) {
+    if (this._targetPlanet._rover._healthBar._currentHealth <= 0) {
       this.emit(Play.events.GAME_OVER, { name: this._targetPlanet.name });
     }
   }
 
+  /**
+   * Changes the target planet.
+   * @method
+   * @private
+   */
   _changeTarget() {
     this._targetPlanet =
       this._targetPlanet === this._redBigPlanet
@@ -126,6 +190,11 @@ export default class Play extends Scene {
         : this._redBigPlanet;
   }
 
+  /**
+   * Changes the planet that is on turn.
+   * @method
+   * @private
+   */
   _changeTurn() {
     this._currentTurn =
       this._currentTurn === this._redBigPlanet
@@ -136,11 +205,22 @@ export default class Play extends Scene {
     }
   }
 
+  /**
+   * Clears the rocket's animation
+   * @method
+   * @private
+   */
   _clearRocketAnimation() {
     this._rocket._tl.clear();
     this.removeChild(this._rocket);
   }
 
+  /**
+   * Handles rocket shoot.
+   * @param {{string}} Object - Event.
+   * @method
+   * @private
+   */
   _shootHandler({ key }) {
     if (key === " ") {
       this._shootRocket(this._playerPlanet._rocketConfig, true);
@@ -151,6 +231,11 @@ export default class Play extends Scene {
     }
   }
 
+  /**
+   * Handles shoot sounds for the rocket.
+   * @method
+   * @private
+   */
   _shootSound() {
     if (this._targetPlanet.name === "blueBig") {
       Assets.sounds.shootLeft.stop();
@@ -161,6 +246,11 @@ export default class Play extends Scene {
     }
   }
 
+  /**
+   * Handles rocket bounce sound from shield.
+   * @method
+   * @private
+   */
   _bounceSound() {
     if (this._targetPlanet.name === "blueBig") {
       Assets.sounds.bounceL.play();
@@ -169,6 +259,11 @@ export default class Play extends Scene {
     }
   }
 
+  /**
+   * Handles the sound of the explosion.
+   * @method
+   * @private
+   */
   _explosionSound() {
     if (this._targetPlanet.name === "blueBig") {
       Assets.sounds.explosionL.play();
@@ -177,6 +272,13 @@ export default class Play extends Scene {
     }
   }
 
+  /**
+   * Initializes rocket's flight animation.
+   * @param {Object} Object - Config.
+   * @param {boolean} boolean. - If the rocket is shot from a rover or from the shield.
+   * @method
+   * @private
+   */
   _shootRocket(config, fromRover = false) {
     if (fromRover) {
       this._shootSound();
@@ -190,12 +292,22 @@ export default class Play extends Scene {
     );
   }
 
+  /**
+   * Listens for an event to swap the player's shield active position.
+   * @method
+   * @private
+   */
   _shieldSwapListener() {
     document.addEventListener("keydown", (e) => {
       this._redBigPlanet.shield._shieldSwapHandler(e);
     });
   }
 
+  /**
+   * Draws the background of the scene.
+   * @method
+   * @private
+   */
   _createBackground() {
     const background = new Sprite.from("playScene");
     background.anchor.set(0.5);
@@ -203,6 +315,11 @@ export default class Play extends Scene {
     this.addChild(background);
   }
 
+  /**
+   * Draws the planets of the scene.
+   * @method
+   * @private
+   */
   _createPlanets() {
     this._blueBigPlanet = new Planet(config.planets.blueBig, "blueBig");
     this.addChild(this._blueBigPlanet);
