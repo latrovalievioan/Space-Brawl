@@ -7,7 +7,6 @@ import { Container } from "pixi.js";
 import fire from "./static/fire.json";
 import Assets from "./core/AssetManager";
 import explosion from "./static/explosion.json";
-import { fit } from "./core/utils";
 
 /**
  * Main game stage, manages scenes/levels.
@@ -29,6 +28,7 @@ export default class Game extends Container {
     this.name = "game";
     this._background = background;
     this.currentScene = null;
+    console.log(document.body);
   }
   async start() {
     await this.switchScene(Loading, { scene: "loading" });
@@ -37,8 +37,8 @@ export default class Game extends Container {
       { texture: "explosion", data: explosion },
       { texture: "fire", data: fire },
     ]);
-    // Assets.sounds.fight.play();
-    // Assets.sounds.fight.loop(true);
+    Assets.sounds.fight.play();
+    Assets.sounds.fight.loop(true);
     await this.switchScene(Tutorial, { scene: "tutorial" });
     await this.currentScene.finish;
     await this.switchScene(Countdown, { scene: "cd" });
