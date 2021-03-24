@@ -4,6 +4,10 @@ import Scene from "./Scene";
 import config from "../config";
 import { scaleXY } from "../core/utils";
 
+/**
+ * Represents the Tutorial scene. Explains the rules of the game.
+ * @class
+ */
 export default class Tutorial extends Scene {
   constructor() {
     super();
@@ -28,6 +32,11 @@ export default class Tutorial extends Scene {
     };
   }
 
+  /**
+   * Draws the background of the scene.
+   * @method
+   * @private
+   */
   _createBackground() {
     const background = new Sprite.from("playScene");
     background.anchor.set(0.5);
@@ -37,6 +46,11 @@ export default class Tutorial extends Scene {
     this.addChild(background);
   }
 
+  /**
+   * Draws the game instructions (first slide of the tutorial).
+   * @method
+   * @private
+   */
   _createGameInstructions() {
     this._gameInstructions = new Sprite.from("gameInstructions");
     this._gameInstructions.anchor.set(0.5);
@@ -44,6 +58,12 @@ export default class Tutorial extends Scene {
     this.addChild(this._gameInstructions);
   }
 
+  /**
+   * Draws the title of the game.
+   * @param {{number}} Object - Config.
+   * @method
+   * @private
+   */
   _createTitle({ scale }) {
     this._title = new Sprite.from("title");
     const title = this._title;
@@ -52,6 +72,12 @@ export default class Tutorial extends Scene {
     scaleXY(title, scale);
     this.addChild(this._title);
   }
+
+  /**
+   * Draws the "next" button.
+   * @method
+   * @private
+   */
   _createNextButton() {
     this._nextButton = new Sprite.from("nextButton");
     this._nextButton.name = "nextButton";
@@ -69,6 +95,12 @@ export default class Tutorial extends Scene {
     });
   }
 
+  /**
+   * Draws the "play" button.
+   * @param {{number}} Object - Config.
+   * @method
+   * @private
+   */
   _createPlayButton({ y }) {
     this._playButton = new Sprite.from("playButton");
     this._playButton.name = "playButton";
@@ -84,6 +116,13 @@ export default class Tutorial extends Scene {
       this.emit(Tutorial.events.finish);
     });
   }
+
+  /**
+   * Draws the arrow instructions (second slide of the tutorial).
+   * @param {{number}} Object - Config.
+   * @method
+   * @private
+   */
   _createArrowInstructions({ y }) {
     this._arrowInstructions = new Sprite.from("arrowInstructions");
     const instructions = this._arrowInstructions;
@@ -94,6 +133,12 @@ export default class Tutorial extends Scene {
     this.addChild(instructions);
   }
 
+  /**
+   * Draws the arrow images.
+   * @param {{Object, Object}} Object - Config.
+   * @method
+   * @private
+   */
   _createArrows({ up, down }) {
     this._upArrow = new Sprite.from("upArrow");
     const upArrow = this._upArrow;
@@ -111,6 +156,11 @@ export default class Tutorial extends Scene {
     this.addChild(downArrow);
   }
 
+  /**
+   * Draws the spacebar image.
+   * @method
+   * @private
+   */
   _createSpacebar() {
     this._spacebar = new Sprite.from("longButton");
     const spacebar = this._spacebar;
@@ -119,6 +169,10 @@ export default class Tutorial extends Scene {
     this.addChild(spacebar);
   }
 
+  /**
+   * Draws the spacebar instructions (last slide of the tutorial).
+   * @param {{number}} Object - Config.
+   */
   _createSpacebarInstructions({ y }) {
     this._spacebarInstructions = new Sprite.from("spacebarInstructions");
     const spacebarInstructions = this._spacebarInstructions;
@@ -128,6 +182,12 @@ export default class Tutorial extends Scene {
     this.addChild(spacebarInstructions);
   }
 
+  /**
+   * Animates the first slide of the tutorial.
+   * @param {{Object, Object}} Object - Config.
+   * @method
+   * @private
+   */
   _animateGameInstruction({ title: titleConfig, button: buttonConfig }) {
     const tl = this._timeline;
     const title = this._title;
@@ -156,8 +216,14 @@ export default class Tutorial extends Scene {
         },
         "<"
       );
-    return "button instructions";
   }
+
+  /**
+   * Animates the second slide of the tutorial.
+   * @param {{Object, Object}} Object - Config.
+   * @method
+   * @private
+   */
   _animateButtonInstructions({
     arrows: { up: upArrowConfig, down: downArrowConfig },
   }) {
@@ -198,6 +264,12 @@ export default class Tutorial extends Scene {
       );
   }
 
+  /**
+   * Animates the third slide of the tutorial.
+   * @param {{Object}} Object - Config.
+   * @method
+   * @private
+   */
   _animateSpacebarInstructions({ arrowInstructions: instructionsConfig }) {
     const tl = this._timeline;
     const arrowInstructions = this._arrowInstructions;
@@ -260,6 +332,12 @@ export default class Tutorial extends Scene {
       );
   }
 
+  /**
+   * Animates out the last slide of the tutorial scene.
+   * @returns Promise
+   * @method
+   * @private
+   */
   _animateOut() {
     const spacebarButton = this._spacebar;
     const instructions = this._spacebarInstructions;
