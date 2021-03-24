@@ -4,19 +4,10 @@ import Scene from "./Scene";
 import config from "../config";
 import { scaleXY } from "../core/utils";
 
-const defer = () => {
-  let methods;
-  const promise = new Promise(
-    (resolve, reject) => (methods = { resolve, reject })
-  );
-  return Object.assign(promise, methods);
-};
-
 export default class Tutorial extends Scene {
   constructor() {
     super();
     this.name = "tutorial";
-    this._finishPromise = defer();
     this._config = config.scenes.Tutorial;
     this._timeline = gsap.timeline();
     this._createBackground();
@@ -31,9 +22,12 @@ export default class Tutorial extends Scene {
     this._createPlayButton(this._config.button);
   }
 
-  get finish() {
-    return this._finishPromise;
+  static get events() {
+    return {
+      finish: "finish",
+    };
   }
+
   _createBackground() {
     const background = new Sprite.from("playScene");
     background.anchor.set(0.5);
@@ -85,9 +79,9 @@ export default class Tutorial extends Scene {
     button.interactive = true;
     button.buttonMode = true;
     this.addChild(button);
-    button.once("click", () => {
-      this._animateOut();
-      this._finishPromise.resolve();
+    button.once("click", async () => {
+      await this._animateOut();
+      this.emit(Tutorial.events.finish);
     });
   }
   _createArrowInstructions({ y }) {
@@ -304,5 +298,6 @@ export default class Tutorial extends Scene {
         },
         "<"
       );
+    return tl.play();
   }
 }
