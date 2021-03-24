@@ -10,8 +10,6 @@ Includes:
 
 - 📦 Bundling via Webpack
 - 🏝 Scene management
-- ✨ Out of the box loader with progress bar, see `src/scenes/Splash.js`
-- 📐 Viewport fitting and resize handling, see `Application.setupViewport()` in `src/core/Application.js`
 
 ## Available Commands
 
