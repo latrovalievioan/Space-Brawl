@@ -2,7 +2,7 @@
 
 This is my implementation of Space Brawl project at Booost Academy.The app uses GSAP for animations and PIXI to draw on canvas.
 
-## DEMO
+## PREVIEW
 
 ![](src/assets/preview.gif)
 
