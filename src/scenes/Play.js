@@ -33,8 +33,8 @@ export default class Play extends Scene {
     this._createBackground();
     this._createPlanets();
     this._shieldSwapListener();
-    this._currentTurn = this._redBigPlanet;
-    this._targetPlanet = this._blueBigPlanet;
+    this._currentTurn = this._blueBigPlanet;
+    this._targetPlanet = this._redBigPlanet;
     this._playerPlanet = this._redBigPlanet;
     this._bot = this._blueBigPlanet;
     this._startTurn(this._currentTurn);
