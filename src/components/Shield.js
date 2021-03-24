@@ -1,9 +1,16 @@
-import { Container, Graphics, Sprite } from "pixi.js";
+import { Container, Sprite } from "pixi.js";
 import { scaleXY } from "../core/utils";
-import Assets from "../core/AssetManager";
 import gsap from "gsap/all";
 
+/**
+ * Represents a shield that has a active and inactive part, which can be switched.
+ * @class
+ */
 export default class Shield extends Container {
+  /**
+   *
+   * @param {Object} Object - Config.
+   */
   constructor({ activePart, inactivePart, upperPart, lowerPart, hitBox }) {
     super();
     this._upperPartConfig = upperPart;
@@ -11,15 +18,26 @@ export default class Shield extends Container {
     this._hitBoxConfig = hitBox;
     this.hitBoxRectangles = [];
     this._createHitBox(this._hitBoxConfig.upper);
-    this._activePart = this._createShieldParts(activePart, upperPart);
-    this._inactivePart = this._createShieldParts(inactivePart, lowerPart);
+    this._activePart = this._createShieldPart(activePart, upperPart);
+    this._inactivePart = this._createShieldPart(inactivePart, lowerPart);
   }
 
+  /**
+   * @returns boolean
+   */
   get isActive() {
     return this._tl && this._tl.isActive();
   }
 
-  _createShieldParts({ image }, { scale, x, y, angle }) {
+  /**
+   * Draws a part of the shield.
+   * @param {{string}} Object - Config.
+   * @param {{number, number, number, number}} Object - Config.
+   * @returns Display Object.
+   * @method
+   * @private
+   */
+  _createShieldPart({ image }, { scale, x, y, angle }) {
     const shieldPart = new Sprite.from(image);
     shieldPart.anchor.set(0.5);
     scaleXY(shieldPart, scale);
@@ -30,6 +48,12 @@ export default class Shield extends Container {
     return shieldPart;
   }
 
+  /**
+   * Handles shield swapping.
+   * @param {string} event
+   * @method
+   * @private
+   */
   _shieldSwapHandler({ key }) {
     if (
       (key === "ArrowDown" && this._activePart.x === this._upperPartConfig.x) ||
@@ -38,6 +62,11 @@ export default class Shield extends Container {
       this._swapShield();
     }
   }
+  /**
+   * Swaps the active and inactive parts of the shield.
+   * @method
+   * @private
+   */
   async _swapShield() {
     this._swapHitBoxes();
     const active = this._activePart;
@@ -62,6 +91,11 @@ export default class Shield extends Container {
       );
   }
 
+  /**
+   * Changes the position of the hitboxes of the shield.
+   * @method
+   * @private
+   */
   _swapHitBoxes() {
     const { lower, upper } = this._hitBoxConfig;
     const { rect1, rect2 } =
@@ -76,6 +110,12 @@ export default class Shield extends Container {
     ] = [rect1.x, rect1.y, rect1.angle, rect2.x, rect2.y, rect2.angle];
   }
 
+  /**
+   * Draws the hit boxes of the shield.
+   * @param {{Object,Object}} Object - Config.
+   * @method
+   * @private
+   */
   _createHitBox({ rect1, rect2 }) {
     this.rectangle1 = PIXI.Sprite.from(PIXI.Texture.WHITE);
     this.rectangle1.width = rect1.width;
