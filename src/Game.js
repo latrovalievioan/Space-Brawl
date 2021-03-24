@@ -28,7 +28,6 @@ export default class Game extends Container {
     this.name = "game";
     this._background = background;
     this.currentScene = null;
-    console.log(document.body);
   }
   async start() {
     await this.switchScene(Loading, { scene: "loading" });
