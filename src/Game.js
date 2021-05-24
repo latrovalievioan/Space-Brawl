@@ -1,12 +1,12 @@
-import Play from "./scenes/Play";
-import Win from "./scenes/Win";
-import Loading from "./scenes/Loading";
-import Tutorial from "./scenes/Tutorial";
-import Countdown from "./scenes/Countdown";
-import { Container } from "pixi.js";
-import fire from "./static/fire.json";
-import Assets from "./core/AssetManager";
-import explosion from "./static/explosion.json";
+import Play from './scenes/Play';
+import Win from './scenes/Win';
+import Loading from './scenes/Loading';
+import Tutorial from './scenes/Tutorial';
+import Countdown from './scenes/Countdown';
+import { Container } from 'pixi.js';
+import fire from './static/fire.json';
+import Assets from './core/AssetManager';
+import explosion from './static/explosion.json';
 
 /**
  * Main game stage, manages scenes/levels.
@@ -16,7 +16,7 @@ import explosion from "./static/explosion.json";
 export default class Game extends Container {
   static get events() {
     return {
-      SWITCH_SCENE: "switch_scene",
+      SWITCH_SCENE: 'switch_scene',
     };
   }
 
@@ -25,32 +25,32 @@ export default class Game extends Container {
    */
   constructor({ background }) {
     super();
-    this.name = "game";
+    this.name = 'game';
     this._background = background;
     this.currentScene = null;
   }
   async start() {
-    await this.switchScene(Loading, { scene: "loading" });
+    await this.switchScene(Loading, { scene: 'loading' });
     await this.currentScene.finish;
     await Assets.prepareSpritesheets([
-      { texture: "explosion", data: explosion },
-      { texture: "fire", data: fire },
+      { texture: 'explosion', data: explosion },
+      { texture: 'fire', data: fire },
     ]);
     Assets.sounds.fight.play();
     Assets.sounds.fight.loop(true);
-    await this.switchScene(Tutorial, { scene: "tutorial" });
+    await this.switchScene(Tutorial, { scene: 'tutorial' });
     this.currentScene.once(Tutorial.events.finish, async () => {
-      await this.switchScene(Countdown, { scene: "cd" });
+      await this.switchScene(Countdown, { scene: 'cd' });
       await this.currentScene.finish;
-      this.switchScene(Play, { scene: "play" });
+      this.switchScene(Play, { scene: 'play' });
       this.setupSceneTransition();
     });
   }
   setupSceneTransition() {
     this.currentScene.once(Play.events.GAME_OVER, (loser) => {
-      this.switchScene(Win, { scene: "win" }, loser.name);
+      this.switchScene(Win, { scene: 'win' }, loser.name);
       this.currentScene.once(Win.events.REPLAY, () => {
-        this.switchScene(Play, { scene: "play" });
+        this.switchScene(Play, { scene: 'play' });
         this.setupSceneTransition();
       });
     });
